@@ -6,7 +6,6 @@
     display: flex;
     overflow: hidden;
 
-
     .left {
         flex: 1;
         display: flex;
@@ -18,37 +17,45 @@
         border-left: 2px solid #ddd;
     }
 
-    .block {
-        width: 100%;
-        height: 100%;
-        border-radius: 5px;
-        border: solid 2px #ddd;
-    }
 
     .view {
         flex: 1;
+        position: relative;
+        overflow: hidden;
+
+        .drag-class {
+            position: absolute;
+        }
     }
 
-    pre {
-        height: 300px;
-        background-color: #343434;
-        color: #fff;
-        margin: 0;
-        padding: 10px;
-        overflow: auto;
-        padding-bottom: 20px;
+
+    .form-group {
+        padding: 5px 0;
+        border-bottom: 1px solid #ddd;
+
+        .group-name {
+            font-weight: bold;
+            text-shadow: 1px 1px 1px rgba($color: #000, $alpha: 0.3);
+        }
     }
 
     .form-item {
         display: flex;
         align-items: center;
 
-        label {
-            width: 50px;
+        .form-label {
+            width: 80px;
             text-align: right;
-            padding: 0 5px;
+
         }
+
+        .form-value {
+            flex: 1;
+        }
+
+
     }
+
 }
 
 #workspace /deep/ {}

@@ -1,47 +1,39 @@
+import Node from '../../../lib/vs/Node';
 import vs from '../../../lib/vs/vs'
+import App from '../../../lib/vs/App';
+
 
 export default {
     layout: 'sub',
     name: 'workspace',
     data() {
         return {
-            config: {
-                x: 100,
-                y: 100,
-                w: 100,
-                h: 100,
-            },
-            msg: []
+            nodes: [],
+            activeNode: null,
+            app: null,
         };
     },
     methods: {
         // 用于初始化一些数据
         init() {
+            this.app = new App();
+            this.nodes = this.app.nodes;
+            this.app.run();
             this.update();
         },
         // 用于更新一些数据
         async update() {
-            // const res = await this.$http.post('', {});
-            
-            console.warn(vs.prototype);
-        },
-        onDrag(x, y) {
-            this.msg.push(`x:${x}, y:${y}`);
-            this.config.x = x;
-            this.config.y = y;
+
+            let node = new Node();
+            node.size.w = 100;
+            node.size.h = 100;
+            node.addComponent('Image');
+            this.app.addNode(node);
 
         },
-        resizing(x, y, w, h) {
-            this.msg.push(`x:${x}, y:${y}, w:${w}, h:${h}`);
-            this.config.w = w;
-            this.config.h = h;
-        }
     },
     // 计算属性
     computed: {
-        console() {
-            return this.msg.join('\r\n');
-        }
     },
     // 包含 Vue 实例可用过滤器的哈希表。
     filters: {},
@@ -70,13 +62,7 @@ export default {
     directives: {},
     // 一个对象，键是需要观察的表达式，值是对应回调函数。
     watch: {
-        msg() {
-            if (this.msg.length > 100) {
-                this.msg.splice(0, 90);
-            }
-            let $pre = document.getElementById('pre');
-            $pre.scrollTop = $pre.scrollHeight;
-        }
+
     },
     // 组件列表
     components: {},
