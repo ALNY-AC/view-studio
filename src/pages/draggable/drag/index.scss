@@ -1,0 +1,158 @@
+@import "@/styles/variable.scss";
+
+#drag {
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+
+
+    .echart {
+        width: 100%;
+        height: 100%;
+    }
+
+    .drag-block {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    .left {
+        width: 230px;
+        background-color: rgb(34, 34, 34);
+
+        overflow: auto;
+
+        .comp-list {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+
+            .comp-item {
+                width: 100%;
+                padding: 5px 10px;
+                background-color: rgb(89, 89, 89);
+                color: rgb(193, 193, 193);
+                text-shadow: 1px 1px 1px rgba($color: #000, $alpha: 0.3);
+                line-height: 1.2;
+                margin-bottom: 5px;
+                border-radius: 2px;
+                font-size: 1px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                user-select: none;
+
+                .icon {
+                    font-size: 16px;
+                }
+
+                .comp-name {
+                    margin-left: 3px;
+                }
+
+                &:hover {
+                    background-color: rgb(128, 128, 128);
+                }
+
+            }
+        }
+    }
+
+    .studio {
+        flex: 1;
+        padding: 5px;
+        display: flex;
+        position: relative;
+        background-color: #000000;
+
+        .studio-panel {
+            flex: 1;
+            background-color: rgb(60, 60, 60);
+            position: relative;
+        }
+
+    }
+
+    .drag-class {
+        // border: 1px solid red;
+        border: none;
+        box-sizing: border-box;
+        position: absolute;
+    }
+
+    .drag-active-class {
+        outline: 1px dashed #fff;
+    }
+
+    .prop-panel {
+        width: 300px;
+        background-color: rgb(34, 34, 34);
+        padding: 10px;
+
+        .form-item {
+            font-size: 12px;
+            color: rgb(193, 193, 193);
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1px;
+
+
+
+            .form-label {
+                width: 60px;
+                text-align: right;
+                margin-right: 5px;
+                text-shadow: 1px 1px 1px rgba($color: #000, $alpha: 0.3);
+
+            }
+
+            .form-value {
+                flex: 1;
+
+                @mixin form-group {
+                    text-shadow: 1px 1px 1px rgba($color: #000, $alpha: 0.3);
+                    line-height: 1.2;
+                    padding: 3px 5px;
+                    width: 100%;
+                    border: none;
+                    display: block;
+                    outline: none;
+                    background-color: rgb(89, 89, 89);
+                    color: rgb(193, 193, 193);
+                    border-radius: 3px;
+                }
+
+                input {
+
+                    @include form-group;
+
+                    &:focus {
+                        background-color: rgb(128, 128, 128);
+                        color: #fff;
+                    }
+                }
+
+                input[type=color] {
+                    width: 30px;
+                    height: 30px;
+                }
+
+                select {
+                    @include form-group;
+                    margin: 3px 0;
+                    background-color: rgb(44, 44, 44);
+                    border: solid 1px rgb(68, 68, 68);
+                    border-radius: 3px;
+                    display: inline-block;
+                }
+            }
+        }
+
+
+    }
+
+
+}
