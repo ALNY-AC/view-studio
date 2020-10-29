@@ -1,6 +1,8 @@
+
 export default class App {
     runtimeInterval = null;
     nodes = [];
+    dt = 0;
     run() {
         this.start();
         this.loadScript();
@@ -22,12 +24,14 @@ export default class App {
     }
     start() {
         this.runtimeInterval = setInterval(() => {
+            this.dt++;
             this.nodes.forEach(el => {
-                el.update();
+                el.update(this.dt);
             })
         }, 10);
     }
     stop() {
+        this.dt = 0;
         clearInterval(this.runtimeInterval);
     }
     addNode(node) {

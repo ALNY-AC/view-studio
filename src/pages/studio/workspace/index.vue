@@ -17,7 +17,7 @@
           :key="node.id"
           :onDragStart="()=>activeNode=node"
         >
-          <component v-if="node.componentName" :is="node.componentName" :node="node"></component>
+          <vs-node :node="node"></vs-node>
         </vdr>
       </div>
     </div>
@@ -40,15 +40,24 @@
           <input type="text" v-model.number="activeNode.size.h" />
         </div>
 
-        <div class="form-group" v-for="(comp,key) in activeNode.components" :key="key">
+        <div class="form-group" v-for="(comp,i) in activeNode.components" :key="i">
           <div class="group-name">{{comp.name}}</div>
           <div class="form-item" v-for="(prop,j) in comp.properties" :key="j">
             <div class="form-label">{{prop.displayName?prop.displayName:j}}</div>
             <div class="form-value">
               <input type="text" v-model="comp[j]" v-if="prop.type==String" />
-              {{comp[j]}}
+              <input type="checkbox" v-model="comp[j]" v-if="prop.type==Boolean" />
+              <input type="number" v-model="comp[j]" v-if="prop.type==Number" />
+              <input type="color" v-model="comp[j]" v-if="prop.type=='color'" />
+              <select v-if="prop.valueOption" v-model="comp[j]">
+                <option :value="opt" :key="opt" v-for="opt in prop.valueOption">{{opt}}</option>
+              </select>
             </div>
           </div>
+        </div>
+        <div class="tool">
+          <button @click="addComp('Interval')">计时器</button>
+          <button @click="addComp('Table')">表格</button>
         </div>
       </div>
     </div>

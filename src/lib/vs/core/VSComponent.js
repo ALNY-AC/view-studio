@@ -1,5 +1,8 @@
 // 脚本类，所有脚本都继承此类
-export default class Component {
+/**
+ * 脚本组件，挂载在Node上的脚本组件
+ */
+export default class VSComponent {
 
     node = null;
     name = '';

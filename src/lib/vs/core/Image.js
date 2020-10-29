@@ -11,7 +11,17 @@ vs.Class({
     start() {
         this.node.componentName = 'VsImage';
     },
+    mounted() {
+        console.warn(this.node.$ref);
+    },
     update() {
+        if (this.node.$ref) {
+
+            if (this.node.$ref.src != this.src) {
+                this.node.$ref.src = this.src
+            }
+
+        }
     },
     destroy() { },
 })

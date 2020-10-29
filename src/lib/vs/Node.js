@@ -43,28 +43,46 @@ export default class Node {
     components = [];
 
     start() { }
-
     /**
      * 将脚本组件添加到Node上
      * @param {String} compName 要被添加的组件脚本的名字
      */
     addComponent(compName) {
+        // 同一个组件不能添加两次
+
+        console.warn(this.components);
+        if (this.queryComponent(compName)) {
+            console.warn('不能重复添加');
+            return null;
+        }
+
         let comp = new vs.classList[compName]();
+
+        if (!comp.name) {
+            comp.name = comp.__proto__.constructor.name
+        }
+
         this.components.push(comp);
         comp.node = this;
         comp.start();
+        return comp;
+
     }
 
     /**
      * 查询组件
-     * @param {String} name 要查询的组件名称
+     * @param {String | VSComponent} name 要查询的组件名称
      */
     queryComponent(name) {
-        return this.components.find(el => el.name == name);
+        if (typeof name == 'string') {
+            return this.components.find(el => el.__proto__.constructor.name == name);
+        } else {
+            return this.components.find(el => el instanceof name);
+        }
     }
-    update() {
+    update(dt) {
         this.components.forEach(el => {
-            el.update();
+            el.update(dt);
         })
     }
     destroy() { }

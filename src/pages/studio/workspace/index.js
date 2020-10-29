@@ -4,7 +4,7 @@ import App from '../../../lib/vs/App';
 
 
 export default {
-    layout: 'sub',
+    layout: 'root',
     name: 'workspace',
     data() {
         return {
@@ -25,15 +25,24 @@ export default {
         async update() {
 
             let node = new Node();
-            node.size.w = 100;
-            node.size.h = 100;
-            node.addComponent('Image');
+            node.size.w = 500;
+            node.size.h = 300;
             this.app.addNode(node);
+            await this.$nextTick(() => { });
+            setTimeout(() => {
+                // node.addComponent('Table');
+                // node.addComponent('Interval');
+            }, 2000);
+
 
         },
+        addComp(comp) {
+            this.activeNode.addComponent(comp);
+        }
     },
     // 计算属性
     computed: {
+
     },
     // 包含 Vue 实例可用过滤器的哈希表。
     filters: {},

@@ -5,7 +5,7 @@
         <div class="title">demo</div>
         <div class="sub-title">demo</div>
       </div>
-      <o-menu></o-menu>
+      <!-- <o-menu></o-menu> -->
     </div>
     <div class="view-panel">
       <el-header height="50px">
