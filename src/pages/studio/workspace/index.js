@@ -28,17 +28,19 @@ export default {
             node.size.w = 500;
             node.size.h = 300;
             this.app.addNode(node);
-            await this.$nextTick(() => { });
-            setTimeout(() => {
-                // node.addComponent('Table');
-                // node.addComponent('Interval');
-            }, 2000);
+            this.$nextTick(() => {
+                node.addComponent('ChartsLine');
+            });
 
-
+            let node2 = new Node();
+            node2.size.w = 500;
+            node2.size.h = 300;
+            node2.position.y = 400;
+            this.app.addNode(node2);
+            this.$nextTick(() => {
+                node2.addComponent('ChartsPie');
+            });
         },
-        addComp(comp) {
-            this.activeNode.addComponent(comp);
-        }
     },
     // 计算属性
     computed: {

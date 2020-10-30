@@ -1,11 +1,13 @@
 import VSComponent from './core/VSComponent'
-import VNode from './core/VNode';
+import VSVNode from './core/VSVNode';
+import VSCharts from './core/VSCharts';
 
 export default class vs {
 
 
     static VSComponent = VSComponent;
-    static VNode = VNode;
+    static VSVNode = VSVNode;
+    static VSCharts = VSCharts;
 
 
 
@@ -23,10 +25,24 @@ export default class vs {
         let properties = new option().properties;
 
         for (const key in properties) {
-            Object.defineProperty(option.prototype, key, {
+
+            let prop = {
+                get: function () {
+                    if (typeof properties[key].get == 'function') properties[key].get.bind(this)();
+                    return this['_' + key];
+                },
+                set: function (v) {
+                    this['_' + key] = v;
+                    if (typeof properties[key].set == 'function') properties[key].set.bind(this)(v);
+                },
+            }
+            let _prop = {
                 value: properties[key].default,
-                writable: true // 是否可以改变
-            });
+                writable: true,// 是否可以改变
+            }
+            Object.defineProperty(option.prototype, key, prop);
+            Object.defineProperty(option.prototype, '_' + key, _prop);
+
         }
 
         vs.classList[className] = option;

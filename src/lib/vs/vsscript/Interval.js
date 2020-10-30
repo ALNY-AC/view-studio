@@ -1,7 +1,8 @@
+import VSComponent from '../core/VSComponent';
 import vs from '../vs'
 
 
-export default class Interval extends vs.VSComponent {
+export default class Interval extends VSComponent {
     interval = null;
     _time = 1000;
     name = 'Interval';

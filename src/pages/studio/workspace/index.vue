@@ -1,7 +1,7 @@
 <template>
   <div id="workspace">
-    <div class="left">
-      <div class="view" @click.self.stop="activeNode=null">
+    <div class="vs-studio-panel" style="flex:1">
+      <div class="scene-studio" @click.self.stop="activeNode=null">
         <vdr
           :enable-native-drag="false"
           @resizing="(x, y, w, h)=>node.resizing(x, y, w, h)"
@@ -21,45 +21,8 @@
         </vdr>
       </div>
     </div>
-    <div class="right">
-      <div v-if="activeNode">
-        <div class="form-item">
-          <label for>x:</label>
-          <input type="text" v-model.number="activeNode.position.x" />
-        </div>
-        <div class="form-item">
-          <label for>y:</label>
-          <input type="text" v-model.number="activeNode.position.y" />
-        </div>
-        <div class="form-item">
-          <label for>w:</label>
-          <input type="text" v-model.number="activeNode.size.w" />
-        </div>
-        <div class="form-item">
-          <label for>h:</label>
-          <input type="text" v-model.number="activeNode.size.h" />
-        </div>
-
-        <div class="form-group" v-for="(comp,i) in activeNode.components" :key="i">
-          <div class="group-name">{{comp.name}}</div>
-          <div class="form-item" v-for="(prop,j) in comp.properties" :key="j">
-            <div class="form-label">{{prop.displayName?prop.displayName:j}}</div>
-            <div class="form-value">
-              <input type="text" v-model="comp[j]" v-if="prop.type==String" />
-              <input type="checkbox" v-model="comp[j]" v-if="prop.type==Boolean" />
-              <input type="number" v-model="comp[j]" v-if="prop.type==Number" />
-              <input type="color" v-model="comp[j]" v-if="prop.type=='color'" />
-              <select v-if="prop.valueOption" v-model="comp[j]">
-                <option :value="opt" :key="opt" v-for="opt in prop.valueOption">{{opt}}</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="tool">
-          <button @click="addComp('Interval')">计时器</button>
-          <button @click="addComp('Table')">表格</button>
-        </div>
-      </div>
+    <div class="vs-studio-panel" style="width:300px">
+      <vs-prop-studio :node="activeNode"></vs-prop-studio>
     </div>
   </div>
 </template>

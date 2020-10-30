@@ -50,13 +50,16 @@ export default class Node {
     addComponent(compName) {
         // 同一个组件不能添加两次
 
-        console.warn(this.components);
         if (this.queryComponent(compName)) {
             console.warn('不能重复添加');
             return null;
         }
 
         let comp = new vs.classList[compName]();
+
+        Object.keys(comp.properties).forEach(k => {
+            comp[k] = comp.properties[k].default;
+        });
 
         if (!comp.name) {
             comp.name = comp.__proto__.constructor.name
@@ -95,6 +98,13 @@ export default class Node {
         this.size.h = h;
         this.position.x = x;
         this.position.y = y;
+
+        // 如果有VNode组件，就通知
+        let VSVNode = this.queryComponent(vs.VSVNode);
+        if (VSVNode) {
+            return VSVNode.resizing();
+        }
+
     }
     /**
      * node在渲染层被调整移动位置的回调

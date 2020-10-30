@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h1>{{count}}</h1>
+    <h1>{{title}}</h1>
+    <el-input v-model="time"></el-input>
+    <el-button @click="query()">查询</el-button>
     <el-button @click="list=[]">清空</el-button>
     <el-table :data="list">
       <el-table-column prop="id"></el-table-column>
@@ -18,8 +20,14 @@ export default {
   data() {
     return {
       list: [{ id: -1 }, { id: 0 }],
-      count: 1
+      title: '',
+      time: '2020',
     };
+  },
+  methods: {
+    query() {
+      console.warn('掉接口');
+    }
   },
   mounted() {
 

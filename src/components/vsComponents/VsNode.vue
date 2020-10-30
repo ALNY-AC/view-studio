@@ -28,12 +28,13 @@ export default {
   },
   methods: {
     handler() {
-      let vnode = this.node.queryComponent(vs.VNode);
+      let vnode = this.node.queryComponent(vs.VSVNode);
       if (vnode) {
         let comp = vnode.require();
         this.comp = comp;
         this.$nextTick(() => {
           vnode.vm = this.$refs['comp' + this.node.id];
+          vnode.mounted();
         })
       }
     }
@@ -44,10 +45,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 .vs-node {
-  border: solid 2px #ddd;
   display: block;
   position: relative;
   width: 100%;
   height: 100%;
+  &:hover {
+    outline: 1px solid rgb(255, 159, 44);
+  }
 }
 </style>
