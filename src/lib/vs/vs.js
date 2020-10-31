@@ -1,6 +1,7 @@
 import VSComponent from './core/VSComponent'
 import VSVNode from './core/VSVNode';
 import VSCharts from './core/VSCharts';
+import VSImage from './core/VSImage';
 
 export default class vs {
 
@@ -8,6 +9,7 @@ export default class vs {
     static VSComponent = VSComponent;
     static VSVNode = VSVNode;
     static VSCharts = VSCharts;
+    static VSImage = VSImage;
 
 
 

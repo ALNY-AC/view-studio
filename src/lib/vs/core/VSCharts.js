@@ -38,7 +38,7 @@ export default class VSCharts extends VSVNode {
     }
 
     require() {
-        return require('./VsCharts.vue').default
+        return require('../vsscript/VsCharts.vue').default
     }
     // 获取配置接口
     getChartOption() {
@@ -53,10 +53,12 @@ export default class VSCharts extends VSVNode {
         this.vm.chart = this.chart;
     }
     resizing(x, y, w, h) {
-        clearTimeout(this.timeout);
-        this.timeout = setTimeout(() => {
-            this.chart.resize();
-        }, 15);
+        if (this.chart) {
+            clearTimeout(this.timeout);
+            this.timeout = setTimeout(() => {
+                this.chart.resize();
+            }, 10);
+        }
     }
     // 自动实现初始化操作
     mounted() {

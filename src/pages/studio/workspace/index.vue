@@ -1,24 +1,49 @@
 <template>
   <div id="workspace">
-    <div class="vs-studio-panel" style="flex:1">
-      <div class="scene-studio" @click.self.stop="activeNode=null">
-        <vdr
-          :enable-native-drag="false"
-          @resizing="(x, y, w, h)=>node.resizing(x, y, w, h)"
-          @dragging="(x,y)=>node.dragging(x,y)"
-          class-name-active="drag-active-class"
-          class-name="drag-class"
-          :snap="true"
-          :x="node.position.x"
-          :y="node.position.y"
-          :w="node.size.w"
-          :h="node.size.h"
-          v-for="node in nodes"
-          :key="node.id"
-          :onDragStart="()=>activeNode=node"
-        >
-          <vs-node :node="node"></vs-node>
-        </vdr>
+    <div class="vs-studio-panel" style="width:200px">
+      <div class="comp-list">
+        <el-row :gutter="5">
+          <el-col :span="12" v-for="item in comps" :key="item.id">
+            <div class="comp-item" @click="addNode(item)">
+              <i v-if="item.icon" :class="['comp-icon',item.icon]"></i>
+              <span class="comp-name">{{item.name}}</span>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
+    </div>
+    <div class="vs-studio-panel" style="flex:1" @click.self.stop="activeNode=null">
+      <div class="scene-studio-view" id="sceneView">
+        <div class="bg" id="sceneViewBg"></div>
+        <div class="scene-studio-box" :style="{width:scene.w+'px', height:scene.h+'px'}">
+          <div
+            class="scene-studio"
+            id="scene"
+            :style="{width:scene.w+'px', height:scene.h+'px',transform:`scale(${scale})`}"
+          >
+            <vdr
+              :scale="scale"
+              :enable-native-drag="false"
+              @resizing="(x, y, w, h)=>node.resizing(x, y, w, h)"
+              @dragging="(x,y)=>node.dragging(x,y)"
+              class-name-active="drag-active-class"
+              class-name="drag-class"
+              :scale-ratio="scale"
+              parent
+              :snap="true"
+              :x="node.position.x"
+              :y="node.position.y"
+              :w="node.size.w"
+              :h="node.size.h"
+              :z="node.zIndex"
+              v-for="node in nodes"
+              :key="node.id"
+              :onDragStart="()=>activeNode=node"
+            >
+              <vs-node :node="node"></vs-node>
+            </vdr>
+          </div>
+        </div>
       </div>
     </div>
     <div class="vs-studio-panel" style="width:300px">

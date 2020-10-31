@@ -20,10 +20,13 @@ export default {
     }
   },
   watch: {
-    'node.components'(val) {
-      if (val.length > 0) {
-        this.handler();
-      }
+    'node.components': {
+      handler(val) {
+        if (val.length > 0) {
+          this.handler();
+        }
+      },
+      immediate: true,
     }
   },
   methods: {

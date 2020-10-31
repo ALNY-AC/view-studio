@@ -1,3 +1,4 @@
+
 <template>
   <div class="prop-panel">
     <template v-if="node">
@@ -28,6 +29,12 @@
               <input type="text" v-model.number="node.size.h" />
             </div>
           </div>
+          <div class="form-item">
+            <div class="form-label">zIndex：</div>
+            <div class="form-value">
+              <input type="text" v-model.number="node.zIndex" />
+            </div>
+          </div>
         </div>
       </div>
 
@@ -35,18 +42,36 @@
         <div class="group-name">{{comp.name}}</div>
         <div class="form-group-body">
           <div class="form-item" v-for="(prop,j) in comp.properties" :key="j">
-            <div class="form-label">{{prop.displayName?prop.displayName:j}}</div>
-            <div class="form-value">
-              <template v-if="!prop.valueOption">
-                <input type="text" v-model="comp[j]" v-if="prop.type==String" />
-                <input type="checkbox" v-model="comp[j]" v-if="prop.type==Boolean" />
-                <input type="number" v-model="comp[j]" v-if="prop.type==Number" />
-                <input type="color" v-model="comp[j]" v-if="prop.type=='color'" />
+            <template v-if="prop.type == vs.VSImage">
+              <template v-if="prop.type == vs.VSImage">
+                <input
+                  type="file"
+                  class="upload-origin-input"
+                  ref="upload"
+                  @change="upload(comp)"
+                  name="file"
+                />
+                <div class="upload-input" @click="$refs.upload[0].click()">
+                  <span v-if="!comp.src">点击或拖拽上传</span>
+                  <img :src="comp.src" v-if="comp.src" class="upload-img" />
+                </div>
               </template>
-              <select v-if="prop.valueOption" v-model="comp[j]">
-                <option :value="opt" :key="opt" v-for="opt in prop.valueOption">{{opt}}</option>
-              </select>
-            </div>
+            </template>
+            <template v-else>
+              <div class="form-label">{{prop.displayName?prop.displayName:j}}</div>
+              <div class="form-value">
+                <template v-if="!prop.valueOption">
+                  <input type="text" v-model="comp[j]" v-if="prop.type==String" />
+                  <input type="checkbox" v-model="comp[j]" v-if="prop.type==Boolean" />
+                  <input type="number" v-model="comp[j]" v-if="prop.type==Number" />
+                  <input type="color" v-model="comp[j]" v-if="prop.type=='color'" />
+                </template>
+
+                <select v-if="prop.valueOption" v-model="comp[j]">
+                  <option :value="opt" :key="opt" v-for="opt in prop.valueOption">{{opt}}</option>
+                </select>
+              </div>
+            </template>
           </div>
         </div>
       </div>
@@ -60,6 +85,8 @@
   </div>
 </template>
 <script>
+import vs from '../../lib/vs/vs'
+
 export default {
   name: 'VsPropStudio',
   props: {
@@ -71,6 +98,7 @@ export default {
   data() {
     return {
       components: [],
+      vs: vs,
     }
   },
   watch: {
@@ -84,6 +112,20 @@ export default {
     }
   },
   methods: {
+
+    upload(comp) {
+
+      let file = this.$refs.upload[0].files[0];
+
+
+      let a = new FileReader();
+      a.readAsDataURL(file);
+      a.onload = (f) => {
+        comp.src = f.target.result;
+      }
+      return false;
+
+    },
     handler() {
 
 
@@ -191,5 +233,26 @@ export default {
       background-color: rgb(106, 106, 106);
     }
   }
+}
+.upload-input {
+  border-radius: 5px;
+  border: dashed 3px rgb(88, 88, 88);
+  width: 100%;
+  height: 120px;
+  color: rgb(88, 88, 88);
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: 20px 0;
+}
+.upload-img {
+  max-height: 100%;
+  display: block;
+}
+.upload-origin-input {
+  display: none !important;
 }
 </style>

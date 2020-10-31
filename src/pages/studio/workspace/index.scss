@@ -9,6 +9,42 @@
     background-color: rgb(31, 31, 31);
     padding: 2px;
 
+
+    .comp-list {
+        display: flex;
+        align-items: center;
+        padding: 5px;
+
+        .comp-item {
+            width: 100%;
+            padding: 5px 10px;
+            background-color: rgb(89, 89, 89);
+            color: rgb(193, 193, 193);
+            text-shadow: 1px 1px 1px rgba($color: #000, $alpha: 0.3);
+            line-height: 1.2;
+            margin-bottom: 5px;
+            border-radius: 2px;
+            font-size: 1px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            user-select: none;
+
+            .icon {
+                font-size: 16px;
+            }
+
+            .comp-name {
+                margin-left: 3px;
+            }
+
+            &:hover {
+                background-color: rgb(128, 128, 128);
+            }
+
+        }
+    }
+
     .vs-studio-panel {
         background-color: rgb(66, 66, 66);
         border-radius: 4px;
@@ -16,8 +52,34 @@
         overflow: hidden;
     }
 
-    .scene-studio {
+    .scene-studio-view {
         position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        padding: 20px;
+
+        .bg {
+            position: absolute;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            top: 0;
+            z-index: 1;
+        }
+
+
+        .scene-studio-box {
+
+            .scene-studio {
+                z-index: 10;
+                position: relative;
+                transform-origin: 0 0;
+                width: 100%;
+                height: 100%;
+            }
+
+        }
     }
 
     .left {

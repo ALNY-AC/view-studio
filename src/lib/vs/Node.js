@@ -37,6 +37,9 @@ export default class Node {
     // 透明度
     opacity = 1;
 
+    // 层级
+    zIndex = 1;
+
     /**
      * 组件脚本数组
      */

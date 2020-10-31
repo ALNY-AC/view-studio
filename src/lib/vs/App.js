@@ -38,4 +38,7 @@ export default class App {
         this.nodes.push(node);
         node.start();
     }
+    removeNode(node) {
+        this.nodes = this.nodes.filter(el => el.id != node.id);
+    }
 }
