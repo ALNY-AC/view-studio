@@ -19,12 +19,14 @@ export default {
                 { size: { w: 200, h: 200 }, components: ["Image"], id: '自定义图片', name: '自定义图片', icon: 'fa fa-image' },
                 { size: { w: 100, h: 100 }, components: ["Map"], id: '地图', name: '地图', icon: 'fa fa-map-o' },
                 { size: { w: 100, h: 100 }, components: ["Text"], id: '标签', name: '标签', icon: 'fa fa-font' },
+                { size: { w: 400, h: 300 }, components: ["Table"], id: '表格', name: '表格', icon: 'fa fa-font' },
             ],
             scene: {
                 w: 1920,
                 h: 1080,
             },
             scale: 1,
+            sceneStyle: {},
         };
     },
     methods: {
@@ -73,20 +75,9 @@ export default {
             two.update();
 
 
-            // ====
-
-            // var scene = new Two(params).appendTo(document.getElementById('scene'));
-
-            // var t = scene.makeLine(0, 0, 100, 0);
-            // t.stroke = '#f66';
-            // t.linewidth = 1;
-            // scene.update();
-
 
         },
         initEvent() {
-
-
             window.addEventListener('keydown', (e) => {
                 if (e.code == 'Backspace') {
                     this.delNode();
@@ -95,12 +86,19 @@ export default {
                     this.delNode();
                 }
             });
-
+            // document.getElementById('sceneView').addEventListener('touchmove', function (e) {
+            //     e.preventDefault();
+            // }, { passive: false });
             // document.getElementById('sceneView').addEventListener('mousewheel', (e) => {
             //     console.warn(e.wheelDelta / 1000);
             //     this.scale = this.scale + (e.wheelDelta / 100)
             //     e.stopPropagation();
             //     // transform:scale()
+            // });
+
+            // window.addEventListener('resize', (e) => {
+
+            //     this.resize();
             // });
 
 
@@ -115,10 +113,19 @@ export default {
 
 
         },
+
+        // resize() {
+        //     if (!this.$refs.scene) return;
+        //     let w = this.$refs.scene.offsetWidth;
+        //     console.warn(w);
+        //     let scale = (w / this.scene.w) * 100;
+        //     this.sceneStyle = {
+        //         transform: `scale(${scale / 100}, ${scale / 100})`,
+        //     }
+        // }
     },
     // 计算属性
     computed: {
-
     },
     // 包含 Vue 实例可用过滤器的哈希表。
     filters: {},

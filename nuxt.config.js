@@ -18,7 +18,7 @@ module.exports = {
     ],
     server: {
         // port: 8080,
-        // host: '192.168.10.104',
+        host: '192.168.0.6',
         // default: 80
         // default: localhost
     },

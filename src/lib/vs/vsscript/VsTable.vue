@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="table" :style="style">
     <h1>{{title}}</h1>
     <el-input v-model="time"></el-input>
     <el-button @click="query()">查询</el-button>
@@ -16,17 +16,30 @@
 <script>
 export default {
   name: 'VsTable',
-  props: {},
+  props: {
+    node: {
+      type: Object,
+      default: null
+    }
+  },
   data() {
     return {
       list: [{ id: -1 }, { id: 0 }],
       title: '',
       time: '2020',
+      table: null,
     };
   },
   methods: {
     query() {
       console.warn('掉接口');
+    }
+  },
+  computed: {
+    style() {
+      return {
+        color: this.node.color
+      }
     }
   },
   mounted() {

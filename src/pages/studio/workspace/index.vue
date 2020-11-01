@@ -15,12 +15,8 @@
     <div class="vs-studio-panel" style="flex:1" @click.self.stop="activeNode=null">
       <div class="scene-studio-view" id="sceneView">
         <div class="bg" id="sceneViewBg"></div>
-        <div class="scene-studio-box" :style="{width:scene.w+'px', height:scene.h+'px'}">
-          <div
-            class="scene-studio"
-            id="scene"
-            :style="{width:scene.w+'px', height:scene.h+'px',transform:`scale(${scale})`}"
-          >
+        <div class="scene-studio-box">
+          <div class="scene-studio" ref="scene" id="scene" :style="sceneStyle">
             <vdr
               :scale="scale"
               :enable-native-drag="false"

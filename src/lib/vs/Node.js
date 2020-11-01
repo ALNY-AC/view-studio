@@ -28,12 +28,13 @@ export default class Node {
         h: 0,
     };
     // 颜色
-    color = {
-        r: 0,
-        g: 0,
-        b: 0,
-        a: 0,
-    };
+    // color = {
+    //     r: 0,
+    //     g: 0,
+    //     b: 0,
+    //     a: 0,
+    // };
+    color = '#ffffff'
     // 透明度
     opacity = 1;
 

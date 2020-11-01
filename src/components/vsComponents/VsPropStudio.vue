@@ -35,6 +35,13 @@
               <input type="text" v-model.number="node.zIndex" />
             </div>
           </div>
+
+          <div class="form-item">
+            <div class="form-label">color：</div>
+            <div class="form-value">
+              <input type="color" v-model="node.color" />
+            </div>
+          </div>
         </div>
       </div>
 

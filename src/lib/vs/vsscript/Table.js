@@ -18,6 +18,10 @@ export default class Table extends VSVNode {
 
     update() {
         if (this.vm) {
+            if (!this.vm.table) {
+                this.vm.table = this;
+            }
+
             if (this.vm.title != this.title) {
                 this.vm.title = this.title;
             }
