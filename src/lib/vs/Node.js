@@ -8,7 +8,6 @@ import vs from './vs';
 
 export default class Node {
     name = 'node';
-    componentName = '';
     // 父级id
     parentId = '';
     id = new Random().getRandom();
@@ -48,8 +47,7 @@ export default class Node {
      */
     components = [];
 
-    // 子代
-    children = [];
+
 
     start() { }
     /**
@@ -57,7 +55,7 @@ export default class Node {
      * @param {String} compName 要被添加的组件脚本的名字
      * @param {Object} opt 从此属性初始化所有配置
      */
-    addComponent(compName, opt) {
+    addComponent(compName, opt = {}) {
         // 同一个组件不能添加两次
 
         if (this.queryComponent(compName)) {
@@ -100,9 +98,7 @@ export default class Node {
     }
     update(dt) {
 
-        this.children.forEach(el => {
-            el.update(dt);
-        })
+
 
         this.components.forEach(el => {
             el.update(dt);

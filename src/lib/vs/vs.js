@@ -2,6 +2,8 @@ import VSComponent from './core/VSComponent'
 import VSVNode from './core/VSVNode';
 import VSCharts from './core/VSCharts';
 import VSImage from './core/VSImage';
+import VSBlueprint from './core/VSBlueprint';
+import build from './build';
 
 export default class vs {
 
@@ -10,8 +12,11 @@ export default class vs {
     static VSVNode = VSVNode;
     static VSCharts = VSCharts;
     static VSImage = VSImage;
+    static VSBlueprint = VSBlueprint;
 
 
+    // 编译器
+    static build = build;
 
     static classList = {}
 

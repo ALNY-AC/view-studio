@@ -1,0 +1,25 @@
+.vs-btn {
+    background-color: rgb(88, 88, 88);
+    border: none;
+    outline: none;
+    color: rgb(216, 216, 216);
+    border-radius: 3px;
+    font-size: 12px;
+    cursor: pointer;
+    display: block;
+    // width: 100%;
+    padding: 2px 10px;
+    box-sizing: border-box;
+
+    &:hover {
+        background-color: rgb(106, 106, 106);
+    }
+
+    &-danger {
+        background-color: rgb(195, 102, 111);
+
+        &:hover {
+            background-color: rgb(195, 102, 111);
+        }
+    }
+}

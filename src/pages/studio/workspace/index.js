@@ -35,10 +35,15 @@ export default {
     watch: {
         'app.nodes'() {
             this.nodes = this.app.nodes;
-            this.buildTree();
+            // this.buildTree();
         }
     },
     methods: {
+        save() {
+            let data = vs.build(this.app);
+            console.warn(data);
+            this.$http.post('/vs/save', { id: this.$route.query.id, json: JSON.stringify(data) });
+        },
         addNode(opt) {
             let node = new Node();
             node.name = opt.name;
@@ -50,23 +55,45 @@ export default {
             this.app.addNode(node);
             this.selectNode(node);
             this.nodes = this.app.nodes;
-            this.buildTree();
         },
-        buildTree() {
-            let tree = [];
-            tree = this.nodes;
-            console.warn('tree', tree);
-            this.tree = tree;
-        },
+        // buildTree() {
+        //     let tree = [];
+        //     tree = this.nodes
+        //         .filter(el => !el.parentId)
+        //         .map(el => ({ children: [], name: el.name, id: el.id, parentId: el, parentId: el.parentId }));
+
+        //     tree.forEach(el => {
+        //         this.buildChildren(el);
+        //     })
+        //     console.warn('tree', tree);
+        //     this.tree = tree;
+        // },
+        // buildChildren(item) {
+        //     item.children = this.nodes
+        //         .filter(el => el.parentId == item.id)
+        //         .map(el => ({ children: [], name: el.name, id: el.id, parentId: item.id }));
+
+        //     item.children.forEach(el => {
+        //         this.buildChildren(el);
+        //     });
+
+        // },
         selectNode(node) {
             this.activeNode = node;
         },
         unSelectNode(node) {
             this.activeNode = null;
         },
-        nodeClick(node) {
-            this.selectNode(node);
-        },
+        // resize() {
+        //     if (!this.$refs.scene) return;
+        //     let width = this.$refs.scene.offsetWidth;
+        //     let scale = (width / this.scene.w).toFixed(2)
+        //     scale = parseFloat(scale);
+        //     this.scale = scale;
+        //     this.sceneStyle = {
+        //         transform: `scale(${scale})`,
+        //     }
+        // },
         // 用于初始化一些数据
         init() {
             this.app = new App();
@@ -75,16 +102,19 @@ export default {
             this.update();
             this.initEvent();
             this.initScene();
-            this.addNode(this.comps[2]);
-            this.addNode(this.comps[2]);
-            this.addNode(this.comps[2]);
-            this.addNode(this.comps[2]);
-            this.addNode(this.comps[2]);
+            this.sceneStyle = {
+                width: this.scene.w + 'px',
+                height: this.scene.h + 'px',
+            }
+            console.warn(this.sceneStyle);
+            // this.resize();
+            // this.addNode(this.comps[2]);
+            // this.addNode(this.comps[2]);
         },
         initScene() {
             // sceneView
-            let vw = this.scale.w;
-            let vh = this.scale.h;
+            let vw = this.scene.w;
+            let vh = this.scene.h;
 
 
             var elem = document.getElementById('sceneViewBg');
@@ -137,37 +167,26 @@ export default {
             this.app.removeNode(this.activeNode);
             this.nodes = this.app.nodes;
             this.activeNode = null;
-            this.buildTree();
+            // this.buildTree();
         },
         // 用于更新一些数据
         async update() {
-
-
+            const res = await this.$http.post('/vs/info', { id: this.$route.query.id });
+            let config = JSON.parse(res.data.json);
+            this.app.compile(config);
         },
 
-        // resize() {
-        //     if (!this.$refs.scene) return;
-        //     let w = this.$refs.scene.offsetWidth;
-        //     console.warn(w);
-        //     let scale = (w / this.scene.w) * 100;
-        //     this.sceneStyle = {
-        //         transform: `scale(${scale / 100}, ${scale / 100})`,
-        //     }
-        // }
-        mouseover(node, data) {
-            // console.warn(node, data);
-            this.preNode = data;
+
+        mouseover(node) {
+            this.preNode = node;
         },
         mouseleave() {
             this.preNode = null;
         },
-        handleDragEnd(draggingNode, dropNode, dropType, ev) {
-            // console.log('tree drag end: ', dropNode && dropNode.name, dropType);
-            // this.list = this.build();
-            // console.warn(arguments);
-            draggingNode.data.parentId = dropNode.data.id;
-            this.buildTree();
-        }
+        // handleDragEnd(draggingNode, dropNode, dropType, ev) {
+        //     draggingNode.data.parentId = dropNode.data.id;
+        // },
+
     },
     // 计算属性
     computed: {

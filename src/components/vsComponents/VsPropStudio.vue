@@ -66,20 +66,29 @@
         <div class="form-group-body">
           <div class="form-item" v-for="(prop,j) in comp.properties" :key="j">
             <template v-if="prop.type == vs.VSImage">
-              <template v-if="prop.type == vs.VSImage">
-                <input
-                  type="file"
-                  class="upload-origin-input"
-                  ref="upload"
-                  @change="upload(comp)"
-                  name="file"
-                />
-                <div class="upload-input" @click="$refs.upload[0].click()">
-                  <span v-if="!comp.src">点击或拖拽上传</span>
-                  <img :src="comp.src" v-if="comp.src" class="upload-img" />
-                </div>
-              </template>
+              <input
+                type="file"
+                class="upload-origin-input"
+                ref="upload"
+                @change="upload(comp)"
+                name="file"
+              />
+              <div class="upload-input" @click="$refs.upload[0].click()">
+                <span v-if="!comp.src">点击或拖拽上传</span>
+                <img :src="comp.src" v-if="comp.src" class="upload-img" />
+              </div>
             </template>
+
+            <template v-else-if="prop.type == vs.VSBlueprint">
+              <div class="form-label">{{prop.displayName?prop.displayName:j}}</div>
+              <div class="form-value">
+                <button class="vs-btn" @click="openBlueprint(node,comp,prop)">
+                  <i class="fa fa-code-fork"></i>
+                  配置数据流
+                </button>
+              </div>
+            </template>
+
             <template v-else>
               <div class="form-label">{{prop.displayName?prop.displayName:j}}</div>
               <div class="form-value">
@@ -103,10 +112,15 @@
         </div>
       </div>
       <div class="tool">
-        <button class="vs-btn" @click="addComp('Interval')">计时器</button>
-        <button class="vs-btn" @click="addComp('Table')">表格</button>
-        <button class="vs-btn" @click="addComp('ChartsLine')">图表1</button>
-        <button class="vs-btn" @click="addComp('ChartsPie')">图表2</button>
+        <button
+          class="vs-btn"
+          v-for="(comp,key) in vs.classList"
+          :key="key"
+          @click="addComp(key)"
+        >{{comp.name}}</button>
+        <!-- <button class="vs-btn" @click="addComp('Table')">表格</button> -->
+        <!-- <button class="vs-btn" @click="addComp('ChartsLine')">图表1</button> -->
+        <!-- <button class="vs-btn" @click="addComp('ChartsPie')">图表2</button> -->
         <button class="vs-btn vs-btn-danger" @click="delNode()">删除节点</button>
       </div>
     </template>
@@ -143,6 +157,9 @@ export default {
     }
   },
   methods: {
+    openBlueprint(node, comp, prop) {
+      console.warn(node, comp, prop);
+    },
     delNode() {
       this.app.removeNode(this.node);
     },
@@ -171,6 +188,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.tool {
+  .vs-btn {
+    width: 100%;
+    margin-bottom: 3px;
+  }
+}
 .prop-panel {
   width: 100%;
   background-color: rgb(56, 56, 56);
@@ -263,29 +286,6 @@ export default {
       }
     }
   }
-  .vs-btn {
-    background-color: rgb(88, 88, 88);
-    border: none;
-    outline: none;
-    color: rgb(216, 216, 216);
-    border-radius: 3px;
-    font-size: 12px;
-    cursor: pointer;
-    display: block;
-    width: 100%;
-    padding: 2px 10px;
-    box-sizing: border-box;
-    margin-bottom: 3px;
-    &:hover {
-      background-color: rgb(106, 106, 106);
-    }
-    &-danger {
-      background-color: rgb(195, 102, 111);
-      &:hover {
-        background-color: rgb(195, 102, 111);
-      }
-    }
-  }
 }
 .upload-input {
   border-radius: 5px;
@@ -300,6 +300,7 @@ export default {
   justify-content: center;
   position: relative;
   margin: 20px 0;
+  cursor: pointer;
 }
 .upload-img {
   max-height: 100%;

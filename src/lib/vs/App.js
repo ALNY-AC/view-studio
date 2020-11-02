@@ -1,3 +1,4 @@
+import Node from "./Node";
 
 export default class App {
     runtimeInterval = null;
@@ -41,4 +42,39 @@ export default class App {
     removeNode(node) {
         this.nodes = this.nodes.filter(el => el.id != node.id);
     }
+    /**
+     * 通过配置表生成页面
+     */
+    compile(nodes) {
+
+        nodes.forEach(({ node, comp }) => {
+
+            let _node = new Node();
+
+            Object.keys(node).forEach(k => {
+                _node[k] = node[k];
+            });
+
+            comp.forEach(c => {
+                _node.addComponent(c.type, c.properties);
+            });
+
+            this.addNode(_node);
+        })
+
+
+    }
+
+    // addNode(opt) {
+    //     let node = new Node();
+    //     node.name = opt.name;
+    //     node.size.w = opt.size.w;
+    //     node.size.h = opt.size.h;
+    //     opt.components.forEach(comp => {
+    //         node.addComponent(comp.type, comp.properties);
+    //     });
+    //     this.app.addNode(node);
+    //     this.selectNode(node);
+    //     this.nodes = this.app.nodes;
+    // }
 }
