@@ -171,6 +171,7 @@ export default {
         },
         // 用于更新一些数据
         async update() {
+            if (typeof this.$route.query.id == 'undefined') return false;
             const res = await this.$http.post('/vs/info', { id: this.$route.query.id });
             let config = JSON.parse(res.data.json);
             this.app.compile(config);
