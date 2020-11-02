@@ -6,6 +6,12 @@
         <div class="group-name">{{node.name}}</div>
         <div class="form-group-body">
           <div class="form-item">
+            <div class="form-label">NodeName：</div>
+            <div class="form-value">
+              <input type="text" v-model.number="node.name" />
+            </div>
+          </div>
+          <div class="form-item">
             <div class="form-label">x：</div>
             <div class="form-value">
               <input type="text" v-model.number="node.position.x" />
@@ -97,10 +103,11 @@
         </div>
       </div>
       <div class="tool">
-        <button @click="addComp('Interval')">计时器</button>
-        <button @click="addComp('Table')">表格</button>
-        <button @click="addComp('ChartsLine')">图表1</button>
-        <button @click="addComp('ChartsPie')">图表2</button>
+        <button class="vs-btn" @click="addComp('Interval')">计时器</button>
+        <button class="vs-btn" @click="addComp('Table')">表格</button>
+        <button class="vs-btn" @click="addComp('ChartsLine')">图表1</button>
+        <button class="vs-btn" @click="addComp('ChartsPie')">图表2</button>
+        <button class="vs-btn vs-btn-danger" @click="delNode()">删除节点</button>
       </div>
     </template>
   </div>
@@ -112,6 +119,10 @@ export default {
   name: 'VsPropStudio',
   props: {
     node: {
+      type: Object,
+      default: null
+    },
+    app: {
       type: Object,
       default: null
     }
@@ -132,7 +143,9 @@ export default {
     }
   },
   methods: {
-
+    delNode() {
+      this.app.removeNode(this.node);
+    },
     upload(comp) {
       let file = this.$refs.upload[0].files[0];
       let a = new FileReader();
@@ -250,7 +263,7 @@ export default {
       }
     }
   }
-  button {
+  .vs-btn {
     background-color: rgb(88, 88, 88);
     border: none;
     outline: none;
@@ -265,6 +278,12 @@ export default {
     margin-bottom: 3px;
     &:hover {
       background-color: rgb(106, 106, 106);
+    }
+    &-danger {
+      background-color: rgb(195, 102, 111);
+      &:hover {
+        background-color: rgb(195, 102, 111);
+      }
     }
   }
 }
@@ -284,6 +303,7 @@ export default {
 }
 .upload-img {
   max-height: 100%;
+  max-width: 100%;
   display: block;
 }
 .upload-origin-input {

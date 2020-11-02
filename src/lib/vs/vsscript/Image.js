@@ -9,7 +9,7 @@ export default class Image extends VSVNode {
         src: {
             type: vs.VSImage,
             displayName: '图片地址',
-            default: '/images/test.webp',
+            default: '/img/banner/banner3.png',
         },
         align: {
             type: String,
@@ -42,7 +42,7 @@ export default class Image extends VSVNode {
         }
     }
 
-  
+
 
 }
 

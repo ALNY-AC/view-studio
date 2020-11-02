@@ -9,17 +9,19 @@ export default {
     data() {
         return {
             nodes: [],
+            tree: [],
             activeNode: null,
             app: null,
             comps: [
-                { size: { w: 400, h: 300 }, components: ["ChartsLine"], id: '折线图', name: '折线图', icon: 'fa fa-area-chart' },
-                { size: { w: 400, h: 400 }, components: ["ChartsPie"], id: '饼图', name: '饼图', icon: 'fa fa-pie-chart' },
                 // { size: { w: 400, h: 400 }, components: ["ChartsPie"], id: '柱状图', name: '柱状图', icon: 'fa fa-bar-chart-o' },
                 // { size: { w: 400, h: 400 }, components: ["ChartsPie"], id: '雷达图', name: '雷达图', icon: 'fa fa-pie-chart' },
-                { size: { w: 200, h: 200 }, components: ["Image"], id: '自定义图片', name: '自定义图片', icon: 'fa fa-image' },
-                { size: { w: 100, h: 100 }, components: ["Map"], id: '地图', name: '地图', icon: 'fa fa-map-o' },
-                { size: { w: 100, h: 100 }, components: ["Label"], id: '标签', name: '标签', icon: 'fa fa-font' },
-                { size: { w: 400, h: 300 }, components: ["Table"], id: '表格', name: '表格', icon: 'fa fa-font' },
+                { size: { w: 400, h: 300 }, components: [{ type: "ChartsLine", properties: {} }], id: '折线图', name: '折线图', icon: 'fa fa-area-chart' },
+                { size: { w: 400, h: 400 }, components: [{ type: "ChartsPie", properties: {} }], id: '饼图', name: '饼图', icon: 'fa fa-pie-chart' },
+                { size: { w: 200, h: 200 }, components: [{ type: "Image", properties: { src: '/img/bg/bg18.jpg' } }], id: '自定义图片', name: '自定义图片', icon: 'fa fa-image' },
+                { size: { w: 200, h: 200 }, components: [{ type: "Image", properties: {} }], id: '自定义图片2', name: '自定义图片2', icon: 'fa fa-image' },
+                { size: { w: 100, h: 100 }, components: [{ type: "Map", properties: {} }], id: '地图', name: '地图', icon: 'fa fa-map-o' },
+                { size: { w: 100, h: 100 }, components: [{ type: "Label", properties: {} }], id: '标签', name: '标签', icon: 'fa fa-font' },
+                { size: { w: 400, h: 300 }, components: [{ type: "Table", properties: {} }], id: '表格', name: '表格', icon: 'fa fa-font' },
             ],
             scene: {
                 w: 1920,
@@ -30,6 +32,12 @@ export default {
             preNode: null,
         };
     },
+    watch: {
+        'app.nodes'() {
+            this.nodes = this.app.nodes;
+            this.buildTree();
+        }
+    },
     methods: {
         addNode(opt) {
             let node = new Node();
@@ -37,14 +45,27 @@ export default {
             node.size.w = opt.size.w;
             node.size.h = opt.size.h;
             opt.components.forEach(comp => {
-                node.addComponent(comp);
+                node.addComponent(comp.type, comp.properties);
             });
             this.app.addNode(node);
             this.selectNode(node);
             this.nodes = this.app.nodes;
+            this.buildTree();
+        },
+        buildTree() {
+            let tree = [];
+            tree = this.nodes;
+            console.warn('tree', tree);
+            this.tree = tree;
         },
         selectNode(node) {
             this.activeNode = node;
+        },
+        unSelectNode(node) {
+            this.activeNode = null;
+        },
+        nodeClick(node) {
+            this.selectNode(node);
         },
         // 用于初始化一些数据
         init() {
@@ -116,6 +137,7 @@ export default {
             this.app.removeNode(this.activeNode);
             this.nodes = this.app.nodes;
             this.activeNode = null;
+            this.buildTree();
         },
         // 用于更新一些数据
         async update() {
@@ -140,15 +162,16 @@ export default {
             this.preNode = null;
         },
         handleDragEnd(draggingNode, dropNode, dropType, ev) {
-            console.log('tree drag end: ', dropNode && dropNode.name, dropType);
+            // console.log('tree drag end: ', dropNode && dropNode.name, dropType);
             // this.list = this.build();
+            // console.warn(arguments);
+            draggingNode.data.parentId = dropNode.data.id;
+            this.buildTree();
         }
     },
     // 计算属性
     computed: {
-        tree() {
-            return [{ label: '节点', children: this.nodes }];
-        }
+
     },
     // 包含 Vue 实例可用过滤器的哈希表。
     filters: {},
@@ -180,10 +203,6 @@ export default {
     errorCaptured() { },
     // 包含 Vue 实例可用指令的哈希表。
     directives: {},
-    // 一个对象，键是需要观察的表达式，值是对应回调函数。
-    watch: {
-
-    },
     // 组件列表
     components: {},
 };

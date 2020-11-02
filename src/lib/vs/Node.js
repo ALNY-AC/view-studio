@@ -9,6 +9,8 @@ import vs from './vs';
 export default class Node {
     name = 'node';
     componentName = '';
+    // 父级id
+    parentId = '';
     id = new Random().getRandom();
     // 定位
     position = {
@@ -53,8 +55,9 @@ export default class Node {
     /**
      * 将脚本组件添加到Node上
      * @param {String} compName 要被添加的组件脚本的名字
+     * @param {Object} opt 从此属性初始化所有配置
      */
-    addComponent(compName) {
+    addComponent(compName, opt) {
         // 同一个组件不能添加两次
 
         if (this.queryComponent(compName)) {
@@ -65,7 +68,7 @@ export default class Node {
         let comp = new vs.classList[compName]();
 
         Object.keys(comp.properties).forEach(k => {
-            comp[k] = comp.properties[k].default;
+            comp[k] = typeof opt[k] == 'undefined' ? comp.properties[k].default : opt[k];
         });
 
         if (!comp.name) {

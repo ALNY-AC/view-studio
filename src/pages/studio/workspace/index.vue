@@ -1,8 +1,14 @@
 <template>
   <div id="workspace">
-    <div class="vs-studio-panel-group" style="width:220px">
+    <div class="vs-studio-panel-group" style="width:250px">
       <div class="vs-studio-panel">
-        <el-tree default-expand-all :data="tree" @node-drag-end="handleDragEnd" draggable>
+        <el-tree
+          default-expand-all
+          @node-click="nodeClick"
+          :data="tree"
+          @node-drag-end="handleDragEnd"
+          draggable
+        >
           <div
             class="tree-node"
             slot-scope="{ node, data }"
@@ -26,7 +32,7 @@
         </div>
       </div>
     </div>
-    <div class="vs-studio-panel" style="flex:1" @click.self.stop="activeNode=null">
+    <div class="vs-studio-panel" style="flex:1">
       <div class="scene-studio-view" id="sceneView">
         <div class="bg" id="sceneViewBg"></div>
         <div class="scene-studio-box">
@@ -48,7 +54,7 @@
               :z="node.zIndex"
               v-for="node in nodes"
               :key="node.id"
-              :onDragStart="()=>selectNode(node)"
+              @activated="()=>selectNode(node)"
             >
               <vs-node :pre-node="preNode" :node="node"></vs-node>
             </vdr>
@@ -57,7 +63,7 @@
       </div>
     </div>
     <div class="vs-studio-panel" style="width:300px">
-      <vs-prop-studio :node="activeNode"></vs-prop-studio>
+      <vs-prop-studio :app="app" :node="activeNode"></vs-prop-studio>
     </div>
   </div>
 </template>
