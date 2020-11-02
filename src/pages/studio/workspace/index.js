@@ -142,9 +142,9 @@ export default {
                 // if (e.code == 'Backspace') {
                 //     this.delNode();
                 // }
-                if (e.code == 'KeyX') {
-                    this.delNode();
-                }
+                // if (e.code == 'KeyX') {
+                //     this.delNode();
+                // }
             });
             // document.getElementById('sceneView').addEventListener('touchmove', function (e) {
             //     e.preventDefault();
