@@ -1,15 +1,29 @@
 <template>
   <div id="workspace">
-    <div class="vs-studio-panel" style="width:200px">
-      <div class="comp-list">
-        <el-row :gutter="5">
-          <el-col :span="12" v-for="item in comps" :key="item.id">
-            <div class="comp-item" @click="addNode(item)">
-              <i v-if="item.icon" :class="['comp-icon',item.icon]"></i>
-              <span class="comp-name">{{item.name}}</span>
-            </div>
-          </el-col>
-        </el-row>
+    <div class="vs-studio-panel-group" style="width:220px">
+      <div class="vs-studio-panel">
+        <el-tree default-expand-all :data="tree" @node-drag-end="handleDragEnd" draggable>
+          <div
+            class="tree-node"
+            slot-scope="{ node, data }"
+            @mouseover="mouseover(node,data)"
+            @mouseleave="mouseleave(node,data)"
+          >
+            <span>{{ data.name }}</span>
+          </div>
+        </el-tree>
+      </div>
+      <div class="vs-studio-panel">
+        <div class="comp-list">
+          <el-row :gutter="5">
+            <el-col :span="12" v-for="item in comps" :key="item.id">
+              <div class="comp-item" @click="addNode(item)">
+                <i v-if="item.icon" :class="['comp-icon',item.icon]"></i>
+                <span class="comp-name">{{item.name}}</span>
+              </div>
+            </el-col>
+          </el-row>
+        </div>
       </div>
     </div>
     <div class="vs-studio-panel" style="flex:1" @click.self.stop="activeNode=null">
@@ -34,9 +48,9 @@
               :z="node.zIndex"
               v-for="node in nodes"
               :key="node.id"
-              :onDragStart="()=>activeNode=node"
+              :onDragStart="()=>selectNode(node)"
             >
-              <vs-node :node="node"></vs-node>
+              <vs-node :pre-node="preNode" :node="node"></vs-node>
             </vdr>
           </div>
         </div>

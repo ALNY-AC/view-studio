@@ -9,7 +9,8 @@ export default class Table extends VSVNode {
         title: {
             type: String,
             default: '表格',
-        }
+        },
+        
     }
 
     require() {

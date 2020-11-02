@@ -46,7 +46,17 @@
       </div>
 
       <div class="form-group" v-for="(comp,i) in components" :key="i">
-        <div class="group-name">{{comp.name}}</div>
+        <div class="group-name">
+          <div class="comp-title">{{comp.name}}</div>
+          <div class="tool-list">
+            <div class="tool-item" @click="showDocument(comp)">
+              <i class="fa fa-book"></i>
+            </div>
+            <div class="tool-item" @click="removeComponent(comp)">
+              <i class="fa fa-trash"></i>
+            </div>
+          </div>
+        </div>
         <div class="form-group-body">
           <div class="form-item" v-for="(prop,j) in comp.properties" :key="j">
             <template v-if="prop.type == vs.VSImage">
@@ -68,7 +78,11 @@
               <div class="form-label">{{prop.displayName?prop.displayName:j}}</div>
               <div class="form-value">
                 <template v-if="!prop.valueOption">
-                  <input type="text" v-model="comp[j]" v-if="prop.type==String" />
+                  <template v-if="prop.type==String">
+                    <input type="text" v-model="comp[j]" v-if="!prop.rows" />
+                    <textarea v-model="comp[j]" v-if="prop.rows" rows="10"></textarea>
+                  </template>
+
                   <input type="checkbox" v-model="comp[j]" v-if="prop.type==Boolean" />
                   <input type="number" v-model="comp[j]" v-if="prop.type==Number" />
                   <input type="color" v-model="comp[j]" v-if="prop.type=='color'" />
@@ -111,7 +125,6 @@ export default {
   watch: {
     'node.id'() {
       if (this.node) {
-        this.components = this.node.components;
         this.handler();
       } else {
         this.components = [];
@@ -121,10 +134,7 @@ export default {
   methods: {
 
     upload(comp) {
-
       let file = this.$refs.upload[0].files[0];
-
-
       let a = new FileReader();
       a.readAsDataURL(file);
       a.onload = (f) => {
@@ -134,13 +144,15 @@ export default {
 
     },
     handler() {
-
-
       this.components = this.node.components;
-
     },
     addComp(comp) {
       this.node.addComponent(comp);
+      this.handler();
+    },
+    removeComponent(comp) {
+      this.node.removeComponent(comp);
+      this.handler();
     }
   }
 }
@@ -155,6 +167,21 @@ export default {
     .group-name {
       color: rgb(216, 216, 216);
       text-shadow: 1px 1px 1px rgba($color: #000, $alpha: 0.3);
+      display: flex;
+      align-items: center;
+      .comp-title {
+        flex: 1;
+      }
+      .tool-list {
+        font-size: 11px;
+        display: flex;
+        align-items: center;
+
+        .tool-item {
+          margin-right: 10px;
+          cursor: pointer;
+        }
+      }
     }
     padding: 10px 0;
   }
@@ -200,7 +227,7 @@ export default {
         color: rgb(216, 216, 216);
         background-color: rgb(89, 89, 89);
       }
-
+      textarea,
       input {
         @include form-input;
 

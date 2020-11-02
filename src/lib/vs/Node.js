@@ -46,6 +46,9 @@ export default class Node {
      */
     components = [];
 
+    // 子代
+    children = [];
+
     start() { }
     /**
      * 将脚本组件添加到Node上
@@ -87,7 +90,17 @@ export default class Node {
             return this.components.find(el => el instanceof name);
         }
     }
+    // 删除
+    removeComponent(comp) {
+        this.components = this.components.filter(el => el.id != comp.id);
+        comp.destroy();
+    }
     update(dt) {
+
+        this.children.forEach(el => {
+            el.update(dt);
+        })
+
         this.components.forEach(el => {
             el.update(dt);
         })

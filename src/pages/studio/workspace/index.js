@@ -14,11 +14,11 @@ export default {
             comps: [
                 { size: { w: 400, h: 300 }, components: ["ChartsLine"], id: '折线图', name: '折线图', icon: 'fa fa-area-chart' },
                 { size: { w: 400, h: 400 }, components: ["ChartsPie"], id: '饼图', name: '饼图', icon: 'fa fa-pie-chart' },
-                { size: { w: 400, h: 400 }, components: ["ChartsPie"], id: '柱状图', name: '柱状图', icon: 'fa fa-bar-chart-o' },
-                { size: { w: 400, h: 400 }, components: ["ChartsPie"], id: '雷达图', name: '雷达图', icon: 'fa fa-pie-chart' },
+                // { size: { w: 400, h: 400 }, components: ["ChartsPie"], id: '柱状图', name: '柱状图', icon: 'fa fa-bar-chart-o' },
+                // { size: { w: 400, h: 400 }, components: ["ChartsPie"], id: '雷达图', name: '雷达图', icon: 'fa fa-pie-chart' },
                 { size: { w: 200, h: 200 }, components: ["Image"], id: '自定义图片', name: '自定义图片', icon: 'fa fa-image' },
                 { size: { w: 100, h: 100 }, components: ["Map"], id: '地图', name: '地图', icon: 'fa fa-map-o' },
-                { size: { w: 100, h: 100 }, components: ["Text"], id: '标签', name: '标签', icon: 'fa fa-font' },
+                { size: { w: 100, h: 100 }, components: ["Label"], id: '标签', name: '标签', icon: 'fa fa-font' },
                 { size: { w: 400, h: 300 }, components: ["Table"], id: '表格', name: '表格', icon: 'fa fa-font' },
             ],
             scene: {
@@ -27,20 +27,24 @@ export default {
             },
             scale: 1,
             sceneStyle: {},
+            preNode: null,
         };
     },
     methods: {
         addNode(opt) {
             let node = new Node();
+            node.name = opt.name;
             node.size.w = opt.size.w;
             node.size.h = opt.size.h;
-
             opt.components.forEach(comp => {
                 node.addComponent(comp);
             });
-
-
             this.app.addNode(node);
+            this.selectNode(node);
+            this.nodes = this.app.nodes;
+        },
+        selectNode(node) {
+            this.activeNode = node;
         },
         // 用于初始化一些数据
         init() {
@@ -50,16 +54,22 @@ export default {
             this.update();
             this.initEvent();
             this.initScene();
+            this.addNode(this.comps[2]);
+            this.addNode(this.comps[2]);
+            this.addNode(this.comps[2]);
+            this.addNode(this.comps[2]);
+            this.addNode(this.comps[2]);
         },
         initScene() {
             // sceneView
             let vw = this.scale.w;
             let vh = this.scale.h;
 
+
             var elem = document.getElementById('sceneViewBg');
+
             var params = { width: this.scene.w, height: this.scene.h };
             var two = new Two(params).appendTo(elem);
-            // scene
 
             for (let i = 0; i < this.scene.w; i++) {
                 var line = two.makeLine(i * 30, 0, i * 30, this.scene.h);
@@ -75,13 +85,12 @@ export default {
             two.update();
 
 
-
         },
         initEvent() {
             window.addEventListener('keydown', (e) => {
-                if (e.code == 'Backspace') {
-                    this.delNode();
-                }
+                // if (e.code == 'Backspace') {
+                //     this.delNode();
+                // }
                 if (e.code == 'KeyX') {
                     this.delNode();
                 }
@@ -123,9 +132,23 @@ export default {
         //         transform: `scale(${scale / 100}, ${scale / 100})`,
         //     }
         // }
+        mouseover(node, data) {
+            // console.warn(node, data);
+            this.preNode = data;
+        },
+        mouseleave() {
+            this.preNode = null;
+        },
+        handleDragEnd(draggingNode, dropNode, dropType, ev) {
+            console.log('tree drag end: ', dropNode && dropNode.name, dropType);
+            // this.list = this.build();
+        }
     },
     // 计算属性
     computed: {
+        tree() {
+            return [{ label: '节点', children: this.nodes }];
+        }
     },
     // 包含 Vue 实例可用过滤器的哈希表。
     filters: {},
@@ -147,7 +170,12 @@ export default {
     // 实例销毁之前调用。在这一步，实例仍然完全可用。
     beforeDestroy() { },
     //Vue 实例销毁后调用。
-    destroyed() { },
+    destroyed() {
+        console.warn('destroyed');
+        this.nodes = [];
+        this.app = null;
+        this.activeNode = null;
+    },
     // 当捕获一个来自子孙组件的错误时被调用。
     errorCaptured() { },
     // 包含 Vue 实例可用指令的哈希表。

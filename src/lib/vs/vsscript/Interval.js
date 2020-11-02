@@ -4,13 +4,15 @@ import vs from '../vs'
 
 export default class Interval extends VSComponent {
     interval = null;
-    _time = 1000;
     name = 'Interval';
     count = 0;
     properties = {
         time: {
             default: 5000,
-            type: Number
+            type: Number,
+            set() {
+                this.restart();
+            }
         }
     }
 
@@ -31,13 +33,9 @@ export default class Interval extends VSComponent {
                 }
             });
             this.count++;
-        }, this._time);
+        }, this.time);
     }
     update() {
-        if (this._time != this.time) {
-            this._time = this.time;
-            this.restart();
-        }
     }
 }
 

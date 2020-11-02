@@ -4,7 +4,7 @@
 </template>
 <script>
 export default {
-  name: 'VsCharts',
+  name: 'VsImage',
   props: {
     node: {
       type: Object,
@@ -39,7 +39,7 @@ export default {
       }
 
       if (this.image.align == '原图') {
-        
+
       }
 
       if (this.image.repeat == '不重复') {
@@ -58,8 +58,6 @@ export default {
         style.backgroundRepeat = 'repeat-y';
       }
 
-      console.warn(this.image);
-      console.warn(style);
       return style;
     }
   },

@@ -2,8 +2,11 @@
 /**
  * 脚本组件，挂载在Node上的脚本组件
  */
+import Random from '../../tool/Random'
+
 export default class VSComponent {
 
+    id = new Random().getRandom();
     node = null;
     name = '';
     properties = {}

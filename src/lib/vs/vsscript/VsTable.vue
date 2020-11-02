@@ -1,5 +1,5 @@
 <template>
-  <div class="table" :style="style">
+  <div class="vs-table" :style="style">
     <h1>{{title}}</h1>
     <el-input v-model="time"></el-input>
     <el-button @click="query()">查询</el-button>

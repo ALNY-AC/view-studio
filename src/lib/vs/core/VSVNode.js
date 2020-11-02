@@ -37,4 +37,8 @@ export default class VSVNode extends VSComponent {
      */
     mounted() { }
 
+    //脚本被销毁，需要重置vue实例
+    destroy() {
+
+    }
 }

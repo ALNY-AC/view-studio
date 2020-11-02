@@ -42,6 +42,8 @@ export default class Image extends VSVNode {
         }
     }
 
+  
+
 }
 
 vs.Class(Image)
