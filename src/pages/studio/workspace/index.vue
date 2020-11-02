@@ -32,31 +32,33 @@
           </div>
         </div>
         <div class="vs-studio-panel" style="flex:1">
-          <div class="scene-studio-view" id="sceneView">
+          <div class="scene-studio-view" id="sceneView" ref="sceneView">
             <div class="bg" id="sceneViewBg"></div>
-            <div class="scene-studio-box">
-              <div class="scene-studio" ref="scene" id="scene" :style="sceneStyle">
-                <vdr
-                  :scale="scale"
-                  :enable-native-drag="false"
-                  @resizing="(x, y, w, h)=>node.resizing(x, y, w, h)"
-                  @dragging="(x,y)=>node.dragging(x,y)"
-                  class-name-active="drag-active-class"
-                  class-name="drag-class"
-                  :scale-ratio="scale"
-                  parent
-                  :snap="true"
-                  :x="node.position.x"
-                  :y="node.position.y"
-                  :w="node.size.w"
-                  :h="node.size.h"
-                  :z="node.zIndex"
-                  v-for="node in nodes"
-                  :key="node.id"
-                  @activated="()=>selectNode(node)"
-                >
-                  <vs-node :pre-node="preNode" :node="node"></vs-node>
-                </vdr>
+            <div class="scene-studio-box" id="sceneStudioBox" ref="sceneStudioBox">
+              <div class="scene-studio" ref="scene" :style="sceneStyle" id="scene">
+                <div class="vdr-box" ref="vdrbox">
+                  <vdr
+                    :scale="scale"
+                    :enable-native-drag="false"
+                    @resizing="(x, y, w, h)=>node.resizing(x, y, w, h)"
+                    @dragging="(x,y)=>node.dragging(x,y)"
+                    class-name-active="drag-active-class"
+                    class-name="drag-class"
+                    :scale-ratio="scale"
+                    parent
+                    :snap="true"
+                    :x="node.position.x"
+                    :y="node.position.y"
+                    :w="node.size.w"
+                    :h="node.size.h"
+                    :z="node.zIndex"
+                    v-for="node in nodes"
+                    :key="node.id"
+                    @activated="()=>selectNode(node)"
+                  >
+                    <vs-node :pre-node="preNode" :node="node"></vs-node>
+                  </vdr>
+                </div>
               </div>
             </div>
           </div>

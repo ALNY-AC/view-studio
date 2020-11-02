@@ -135,6 +135,7 @@
         height: 100%;
         overflow: auto;
         padding: 20px;
+        background-color: #0f0;
 
         .bg {
             position: absolute;
@@ -149,14 +150,20 @@
         .scene-studio-box {
             width: 100%;
             height: 100%;
+            background-color: #ff0000;
 
             .scene-studio {
-                // width: 100%;
-                // height: 100%;
+                width: 100%;
+                height: 100%;
                 z-index: 10;
                 position: relative;
                 transform-origin: 0 0;
-                // background-color: #000;
+                background-color: #00f;
+
+                .vdr-box {
+                    width: 100%;
+                    height: 100%;
+                }
             }
 
         }

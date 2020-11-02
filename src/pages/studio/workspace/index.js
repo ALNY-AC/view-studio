@@ -84,16 +84,25 @@ export default {
         unSelectNode(node) {
             this.activeNode = null;
         },
-        // resize() {
-        //     if (!this.$refs.scene) return;
-        //     let width = this.$refs.scene.offsetWidth;
-        //     let scale = (width / this.scene.w).toFixed(2)
-        //     scale = parseFloat(scale);
-        //     this.scale = scale;
-        //     this.sceneStyle = {
-        //         transform: `scale(${scale})`,
-        //     }
-        // },
+        resize() {
+            if (!this.$refs.scene) return;
+            let width = this.$refs.scene.offsetWidth;
+
+            console.warn(width);
+
+            let scale = (width / this.scene.w) * 100
+            scale = parseFloat(scale);
+            this.scale = scale;
+
+            this.$refs.vdrbox.style.width = (scale * this.scene.w) / 100;
+            this.$refs.vdrbox.style.height = (scale * this.scene.h) / 100;
+
+            this.sceneStyle = {
+                transform: `scale(${scale / 100},${scale / 100})`,
+                width: (scale * this.scene.w) / 100,
+                height: (scale * this.scene.h) / 100,
+            }
+        },
         // 用于初始化一些数据
         init() {
             this.app = new App();
@@ -101,11 +110,11 @@ export default {
             this.app.run();
             this.update();
             this.initEvent();
-            this.initScene();
-            this.sceneStyle = {
-                width: this.scene.w + 'px',
-                height: this.scene.h + 'px',
-            }
+            // this.initScene();
+            // this.sceneStyle = {
+            //     width: this.scene.w + 'px',
+            //     height: this.scene.h + 'px',
+            // }
             console.warn(this.sceneStyle);
             // this.resize();
             // this.addNode(this.comps[2]);
@@ -157,7 +166,6 @@ export default {
             // });
 
             // window.addEventListener('resize', (e) => {
-
             //     this.resize();
             // });
 
