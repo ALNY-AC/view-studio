@@ -110,7 +110,7 @@ export default {
             this.app.run();
             this.update();
             this.initEvent();
-            // this.initScene();
+            this.initScene();
             // this.sceneStyle = {
             //     width: this.scene.w + 'px',
             //     height: this.scene.h + 'px',
