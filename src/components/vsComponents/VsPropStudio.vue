@@ -162,6 +162,7 @@ export default {
     },
     delNode() {
       this.app.removeNode(this.node);
+      this.$emit('delete', this.node);
     },
     upload(comp) {
       let file = this.$refs.upload[0].files[0];

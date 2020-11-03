@@ -6,11 +6,19 @@ import VSVNode from '../core/VSVNode';
 export default class Table extends VSVNode {
 
     properties = {
+
         title: {
             type: String,
             default: '表格',
         },
-        
+
+        opt: {
+            type: String,
+            displayName: '查询条件',
+            default: '居中',
+            valueOption: ['已申请', '未申请', '已拒绝'],
+        }
+
     }
 
     require() {

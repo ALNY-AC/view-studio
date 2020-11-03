@@ -64,7 +64,7 @@
           </div>
         </div>
         <div class="vs-studio-panel" style="width:300px">
-          <vs-prop-studio :app="app" :node="activeNode"></vs-prop-studio>
+          <vs-prop-studio :app="app" @delete="activeNode=null" :node="activeNode"></vs-prop-studio>
         </div>
       </div>
     </div>

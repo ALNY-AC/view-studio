@@ -2,8 +2,12 @@
   <div class="vs-table" :style="style">
     <h1>{{title}}</h1>
     <el-input v-model="time"></el-input>
-    <el-button @click="query()">查询</el-button>
     <el-button @click="list=[]">清空</el-button>
+
+    <el-select v-model="query.opt" v-if="table" placeholder="请选择">
+      <el-option v-for="item in table.opt" :key="item" :label="item" :value="item"></el-option>
+    </el-select>
+
     <el-table :data="list">
       <el-table-column prop="id"></el-table-column>
       <el-table-column prop="id"></el-table-column>
@@ -28,12 +32,12 @@ export default {
       title: '',
       time: '2020',
       table: null,
+      query: {
+        opt: '',
+      }
     };
   },
   methods: {
-    query() {
-      console.warn('掉接口');
-    }
   },
   computed: {
     style() {

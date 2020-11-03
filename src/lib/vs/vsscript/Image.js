@@ -24,6 +24,17 @@ export default class Image extends VSVNode {
             valueOption: ['不重复', '重复', '水平重复', '垂直重复'],
         },
 
+        isR: {
+            type: Boolean,
+            displayName: '开启旋转',
+            default: false,
+        },
+        r: {
+            type: Number,
+            displayName: '旋转角度',
+            default: 0,
+        }
+
     }
 
     require() {
@@ -39,6 +50,11 @@ export default class Image extends VSVNode {
                 this.vm.src = this.src;
             }
 
+            this.vm.$refs.image.style.transform = `rotateZ(${this.r}deg)`
+
+        }
+        if (this.isR) {
+            this.r++;
         }
     }
 

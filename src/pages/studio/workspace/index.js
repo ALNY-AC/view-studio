@@ -15,13 +15,15 @@ export default {
             comps: [
                 // { size: { w: 400, h: 400 }, components: ["ChartsPie"], id: '柱状图', name: '柱状图', icon: 'fa fa-bar-chart-o' },
                 // { size: { w: 400, h: 400 }, components: ["ChartsPie"], id: '雷达图', name: '雷达图', icon: 'fa fa-pie-chart' },
+                { size: { w: 100, h: 100 }, components: [], id: '节点', name: '节点', icon: 'fa ' },
                 { size: { w: 400, h: 300 }, components: [{ type: "ChartsLine", properties: {} }], id: '折线图', name: '折线图', icon: 'fa fa-area-chart' },
                 { size: { w: 400, h: 400 }, components: [{ type: "ChartsPie", properties: {} }], id: '饼图', name: '饼图', icon: 'fa fa-pie-chart' },
                 { size: { w: 200, h: 200 }, components: [{ type: "Image", properties: { src: '/img/bg/bg18.jpg' } }], id: '自定义图片', name: '自定义图片', icon: 'fa fa-image' },
-                { size: { w: 200, h: 200 }, components: [{ type: "Image", properties: {} }], id: '自定义图片2', name: '自定义图片2', icon: 'fa fa-image' },
-                { size: { w: 100, h: 100 }, components: [{ type: "Map", properties: {} }], id: '地图', name: '地图', icon: 'fa fa-map-o' },
+                // { size: { w: 200, h: 200 }, components: [{ type: "Image", properties: {} }], id: '自定义图片2', name: '自定义图片2', icon: 'fa fa-image' },
+                // { size: { w: 100, h: 100 }, components: [{ type: "Map", properties: {} }], id: '地图', name: '地图', icon: 'fa fa-map-o' },
                 { size: { w: 100, h: 100 }, components: [{ type: "Label", properties: {} }], id: '标签', name: '标签', icon: 'fa fa-font' },
                 { size: { w: 400, h: 300 }, components: [{ type: "Table", properties: {} }], id: '表格', name: '表格', icon: 'fa fa-font' },
+                // ===
             ],
             scene: {
                 w: 1920,
@@ -35,7 +37,6 @@ export default {
     watch: {
         'app.nodes'() {
             this.nodes = this.app.nodes;
-            // this.buildTree();
         }
     },
     methods: {
@@ -54,7 +55,7 @@ export default {
             });
             this.app.addNode(node);
             this.selectNode(node);
-            this.nodes = this.app.nodes;
+
         },
         // buildTree() {
         //     let tree = [];
