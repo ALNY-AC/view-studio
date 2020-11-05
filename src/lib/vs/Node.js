@@ -10,6 +10,7 @@ export default class Node {
     name = 'node';
     // 父级id
     parentId = '';
+    app = null;
     id = new Random().getRandom();
     // 定位
     position = {
@@ -69,6 +70,8 @@ export default class Node {
             comp[k] = typeof opt[k] == 'undefined' ? comp.properties[k].default : opt[k];
         });
 
+
+
         if (!comp.name) {
             comp.name = comp.__proto__.constructor.name
         }
@@ -86,7 +89,12 @@ export default class Node {
      */
     queryComponent(name) {
         if (typeof name == 'string') {
-            return this.components.find(el => el.__proto__.constructor.name == name);
+            let nameComp = this.components.find(el => el.__proto__.constructor.name == name);
+            if (!nameComp) {
+                return this.components.find(el => el.name == name);
+            } else {
+                return nameComp;
+            }
         } else {
             return this.components.find(el => el instanceof name);
         }

@@ -46,10 +46,6 @@ export default class Image extends VSVNode {
             if (!this.vm.image) {
                 this.vm.image = this;
             }
-            if (this.vm.src != this.src) {
-                this.vm.src = this.src;
-            }
-
             this.vm.$refs.image.style.transform = `rotateZ(${this.r}deg)`
 
         }

@@ -3,10 +3,14 @@
  * 脚本组件，挂载在Node上的脚本组件
  */
 import Random from '../../tool/Random'
+import Node from '../Node';
 
 export default class VSComponent {
 
     id = new Random().getRandom();
+    /**
+     * @type {Node}
+     */
     node = null;
     name = '';
     properties = {}

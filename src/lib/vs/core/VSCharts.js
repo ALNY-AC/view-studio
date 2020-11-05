@@ -1,6 +1,7 @@
 import echarts from "echarts";
 import VSVNode from "./VSVNode";
 import dark from "./dark";
+import 'echarts-gl';
 
 
 /**

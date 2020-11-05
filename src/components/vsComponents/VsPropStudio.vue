@@ -82,10 +82,62 @@
             <template v-else-if="prop.type == vs.VSBlueprint">
               <div class="form-label">{{prop.displayName?prop.displayName:j}}</div>
               <div class="form-value">
-                <button class="vs-btn" @click="openBlueprint(node,comp,prop)">
+                <button class="vs-btn" @click="openBlueprint(node,comp,prop,j)">
                   <i class="fa fa-code-fork"></i>
                   配置数据流
                 </button>
+              </div>
+            </template>
+            <!-- 按钮 -->
+            <template v-else-if="prop.type == vs.VSButton">
+              <div class="form-label">{{prop.displayName?prop.displayName:j}}</div>
+              <div class="form-value">
+                <button
+                  class="vs-btn"
+                  @click="compClick(node,comp,prop,j)"
+                >{{prop.btnName?prop.btnName:'触发'}}</button>
+              </div>
+            </template>
+            <!-- 事件 -->
+            <template v-else-if="prop.type == vs.Event">
+              <div class="form-label">{{prop.displayName?prop.displayName:j}}</div>
+              <div class="form-value">
+                <!-- <button
+                  class="vs-btn"
+                  @click="compClick(node,comp,prop,j)"
+                >{{prop.btnName?prop.btnName:'触发'}}</button>-->
+                <!-- <select name id>
+                  <option
+                    :value="event.valie"
+                    v-for="(event,z) in vs.Event.BtnEventType"
+                    :key="z"
+                  >{{event.label}}</option>
+                </select>-->
+                <input type="text" v-model="comp[j]" />
+              </div>
+            </template>
+            <!-- 请求体 -->
+            <template v-else-if="prop.type == vs.VSHttpBody">
+              <div class="form-label">{{prop.displayName?prop.displayName:j}}</div>
+              <div class="form-value">
+                <el-row :gutter="3" v-for="(body,z) in comp[j]" :key="z">
+                  <el-col :span="8">
+                    <input type="text" v-model="body.field" placeholder="字段名" />
+                  </el-col>
+                  <el-col :span="12">
+                    <input type="text" v-model="body.origin" placeholder="值来源" />
+                  </el-col>
+                  <el-col :span="2">
+                    <button class="vs-btn" @click="comp[j].splice(z,1)">
+                      <i class="el-icon-close"></i>
+                    </button>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col>
+                    <button class="vs-btn" @click="addHttpBody(node,comp,prop,j)">增加字段</button>
+                  </el-col>
+                </el-row>
               </div>
             </template>
 
@@ -157,7 +209,18 @@ export default {
     }
   },
   methods: {
-    openBlueprint(node, comp, prop) {
+    addHttpBody(node, comp, prop, j) {
+      comp[j].push({
+        field: '',
+        origin: '',//节点.组件.值
+      });
+    },
+    compClick(node, comp, prop, j) {
+      if (typeof comp[prop.clickFunction] == 'function') {
+        comp[prop.clickFunction]();
+      }
+    },
+    openBlueprint(node, comp, prop, j) {
       console.warn(node, comp, prop);
     },
     delNode() {

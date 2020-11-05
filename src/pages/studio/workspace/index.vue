@@ -3,6 +3,7 @@
     <div class="vs-studio-panel-group">
       <div class="tool-bar">
         <div class="tool-item" @click="save()">保存</div>
+        <div class="tool-item">{{msg}}</div>
       </div>
       <div class="vs-studio-panel-group v">
         <div class="vs-studio-panel-group" style="width:250px">

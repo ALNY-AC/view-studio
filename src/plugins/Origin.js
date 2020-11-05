@@ -24,6 +24,8 @@ Vue.prototype.$getUrl = function (url = '') {
 // // 例子：
 // // (new Date()).Format("yyyy-MM-dd.S") ==> 2006-07-02 08:09:04.423
 // // (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18
+// // new Date().Format("yyyy-MM-dd hh:mm:ss")      
+
 Date.prototype.Format = function (fmt) { //author: meizz
   const o = {
     "M+": this.getMonth() + 1, //月份

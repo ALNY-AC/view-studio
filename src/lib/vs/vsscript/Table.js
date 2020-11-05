@@ -17,6 +17,12 @@ export default class Table extends VSVNode {
             displayName: '查询条件',
             default: '居中',
             valueOption: ['已申请', '未申请', '已拒绝'],
+        },
+
+        data: {
+            type: Array,
+            displayName: '数据',
+            default: [],
         }
 
     }

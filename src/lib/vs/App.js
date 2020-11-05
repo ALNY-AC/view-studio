@@ -35,7 +35,11 @@ export default class App {
         this.dt = 0;
         clearInterval(this.runtimeInterval);
     }
+    queryNode(name) {
+        return this.nodes.find(el => el.name == name);
+    }
     addNode(node) {
+        node.app = this;
         this.nodes.push(node);
         node.start();
     }
@@ -45,7 +49,7 @@ export default class App {
     /**
      * 通过配置表生成页面
      */
-    compile(nodes) {
+    compile(nodes = []) {
 
         nodes.forEach(({ node, comp }) => {
 

@@ -32,6 +32,7 @@ export default {
             scale: 1,
             sceneStyle: {},
             preNode: null,
+            msg: '',
         };
     },
     watch: {
@@ -43,7 +44,18 @@ export default {
         save() {
             let data = vs.build(this.app);
             console.warn(data);
-            this.$http.post('/vs/save', { id: this.$route.query.id, json: JSON.stringify(data) });
+            try {
+                this.$http.post('/vs/save', { id: this.$route.query.id, json: JSON.stringify(data) });
+                this.showMsg('保存成功');
+            } catch (error) {
+                console.error(error);
+            }
+        },
+        showMsg(msg) {
+            this.msg = msg;
+            setTimeout(() => {
+                this.msg = '';
+            }, 3000);
         },
         addNode(opt) {
             let node = new Node();
@@ -148,14 +160,24 @@ export default {
 
         },
         initEvent() {
-            window.addEventListener('keydown', (e) => {
-                // if (e.code == 'Backspace') {
-                //     this.delNode();
-                // }
-                // if (e.code == 'KeyX') {
-                //     this.delNode();
-                // }
+            // window.addEventListener('keydown', (e) => {
+            // if (e.code == 'Backspace') {
+            //     this.delNode();
+            // }
+            // if (e.code == 'KeyX') {
+            //     this.delNode();
+            // }
+            // });
+            window.addEventListener('keydown', (event) => {
+                // console.warn(event);
+                if ((event.ctrlKey || event.metaKey) && event.code == 'KeyS') {
+                    event.preventDefault();
+                    event.returnvalue = false;
+                    // console.warn('保存');
+                    this.save();
+                }
             });
+
             // document.getElementById('sceneView').addEventListener('touchmove', function (e) {
             //     e.preventDefault();
             // }, { passive: false });

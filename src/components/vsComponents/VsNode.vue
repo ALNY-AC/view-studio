@@ -28,11 +28,12 @@ export default {
       } else {
         return '';
       }
-    }
+    },
   },
   data() {
     return {
       comp: null,
+      vnodeComponent: null,
     }
   },
   watch: {
@@ -41,17 +42,23 @@ export default {
         this.handler();
       },
       immediate: true,
-    }
+    },
   },
   methods: {
     handler() {
-      let vnode = this.node.queryComponent(vs.VSVNode);
-      if (vnode) {
-        let comp = vnode.require();
+      let vnodeComponent = this.node.queryComponent(vs.VSVNode);
+      this.vnodeComponent = vnodeComponent;
+      if (vnodeComponent) {
+        let comp = vnodeComponent.require();
         this.comp = comp;
         this.$nextTick(() => {
-          vnode.vm = this.$refs['comp' + this.node.id];
-          vnode.mounted();
+          vnodeComponent.vm = this.$refs['comp' + this.node.id];
+          Object.keys(vnodeComponent.properties).forEach(k => {
+            if (k in vnodeComponent.vm) {
+              vnodeComponent.vm[k] = vnodeComponent[k];
+            }
+          });
+          vnodeComponent.mounted();
         })
       } else {
         setTimeout(() => {

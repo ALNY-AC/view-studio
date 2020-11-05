@@ -3,6 +3,9 @@ import VSVNode from './core/VSVNode';
 import VSCharts from './core/VSCharts';
 import VSImage from './core/VSImage';
 import VSBlueprint from './core/VSBlueprint';
+import VSButton from './core/VSButton';
+import VSHttpBody from './core/VSHttpBody';
+import Event from './core/Event';
 import build from './build';
 
 export default class vs {
@@ -13,6 +16,9 @@ export default class vs {
     static VSCharts = VSCharts;
     static VSImage = VSImage;
     static VSBlueprint = VSBlueprint;
+    static VSButton = VSButton;
+    static VSHttpBody = VSHttpBody;
+    static Event = Event;
 
 
     // 编译器
@@ -40,7 +46,17 @@ export default class vs {
                 },
                 set: function (v) {
                     this['_' + key] = v;
-                    if (typeof properties[key].set == 'function') properties[key].set.bind(this)(v);
+                    if (typeof properties[key].set == 'function') {
+                        properties[key].set.bind(this)(v);
+                    } else {
+                        if (this instanceof vs.VSVNode) {
+                            if (this.vm) {
+                                if (key in this.vm) {
+                                    this.vm[key] = v;
+                                }
+                            }
+                        }
+                    }
                 },
             }
             let _prop = {
@@ -83,5 +99,19 @@ export default class vs {
 
         return obj;
 
+    }
+
+    // 解析pipe
+    static buildPipe(app, origin) {
+        let pipe = origin.split('.');
+        if (pipe.length != 3) return;
+        let node, comp, prop;
+        if (pipe.length == 3) {
+            node = app.queryNode(pipe[0]);
+            pipe.splice(0, 1);
+        }
+        comp = node.queryComponent(pipe[0]);
+        prop = pipe[1];
+        return { node, comp, prop };
     }
 }

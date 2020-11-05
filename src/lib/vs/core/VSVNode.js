@@ -35,7 +35,9 @@ export default class VSVNode extends VSComponent {
     /**
      * 当vue子组件被挂载到页面上时的回调
      */
-    mounted() { }
+    mounted() {
+        this.vm.ComponentScript = this;
+    }
 
     //脚本被销毁，需要重置vue实例
     destroy() {

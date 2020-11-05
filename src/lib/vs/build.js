@@ -11,7 +11,7 @@ export default function build(app) {
 
 
 
-    let baseProp = ['components'];
+    let baseProp = ['components', 'app'];
 
     /**
      * 节点
@@ -33,7 +33,6 @@ export default function build(app) {
         };
     })
 
-    console.warn(newNodes);
     return newNodes;
 
 }
