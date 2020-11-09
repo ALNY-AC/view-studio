@@ -1,4 +1,5 @@
 import Random from '../lib/tool/Random'
+import BlueApp from './BlueApp';
 import BlueNode from './BlueNode';
 
 export default class BluePic {
@@ -23,6 +24,7 @@ export default class BluePic {
     node = null;
     /**
      * 引脚所在app
+     * @type {BlueApp}
      */
     app = null;
 
@@ -52,6 +54,7 @@ export default class BluePic {
      */
     y = 0;
     width = 5;
+    mousepath = null;
     /**
         * 创建引脚
         * 传入目标引脚，如果有则关联，否则不关联
@@ -95,16 +98,25 @@ export default class BluePic {
 
 
 
-
-
         let path = two.makePath([], true);
-        // path.stroke = 'rgb(240, 173, 78)';
-        path.stroke = '#fff';
+        path.stroke = 'rgb(240, 173, 78)';
+        // path.stroke = '#fff';
         path.noFill();
         path.linewidth = 3;
         path.curved = true;
         path.cap = 'round';
         this.path = path;
+
+
+
+
+        let mousepath = two.makePath([], true);
+        mousepath.stroke = '#fff';
+        mousepath.noFill();
+        mousepath.linewidth = 3;
+        mousepath.curved = true;
+        mousepath.cap = 'round';
+        this.mousepath = mousepath
 
         // =====
 
@@ -113,6 +125,52 @@ export default class BluePic {
         spot.fill = '#fff';
         spot.noStroke();
         this.spot = spot;
+
+        two.update();
+
+
+        spot._renderer.elem.style.boxShadow = '1px 1px 30px rgba(0, 0, 0, 0.1);';
+
+        spot._renderer.elem.addEventListener('mousedown', e => {
+            console.warn(e);
+            this.down = true;
+        })
+
+        // window.addEventListener('mou');
+        spot._renderer.elem.addEventListener('mouseup', e => {
+            console.warn(e);
+        })
+
+
+
+        spot._renderer.elem.addEventListener('mouseover', (e) => {
+            this.app.activePic = this;
+        });
+
+
+        spot._renderer.elem.addEventListener('mouseout', (e) => {
+            this.app.activePic = null;
+        });
+
+
+
+    }
+    drawLine() {
+
+        let points = [
+            new Two.Anchor(this.x, this.y, 0, 0, 0, 0),
+            new Two.Anchor(this.app.mouse.x, this.app.mouse.y - 3, 0, 0, 0, 0),
+        ];
+
+        this.mousepath.vertices = points;
+    }
+    clreLine() {
+        this.mousepath.vertices = [];
+
+        console.warn(this.app.activePic);
+        if (this.app.activePic) {
+            this.link(this.app.activePic);
+        }
 
 
     }
@@ -123,9 +181,6 @@ export default class BluePic {
 
 
 
-
-
-
         }
 
 
@@ -133,6 +188,18 @@ export default class BluePic {
 
 
         }
+
+        if (this.app.mouse.down == true) {
+            if (this.down == true) {
+                this.drawLine();
+            }
+        } else {
+            if (this.down == true) {
+                this.clreLine();
+                this.down = false;
+            }
+        }
+
 
 
 
@@ -144,10 +211,11 @@ export default class BluePic {
         this.spot.position.y = this.y;
 
 
-        if (this.type == BluePic.PIC_LEFT) {
+        if (this.inputTarget && this.type == BluePic.PIC_LEFT) {
             /**
              * 画线都是从右往左画，左节点只能链接一个，但右节点可以输出到多个目标
              */
+
 
 
             let points = [

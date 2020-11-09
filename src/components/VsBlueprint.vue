@@ -62,21 +62,23 @@ export default {
       node1.addPic(pic1);
       node2.addPic(pic2);
 
-      pic1.link(pic2);
+      // pic1.link(pic2);
 
 
       let pic3 = new BlueApp.BluePic(BluePic.PIC_RIGHT);
       let pic4 = new BlueApp.BluePic(BluePic.PIC_LEFT);
       let pic5 = new BlueApp.BluePic(BluePic.PIC_RIGHT);
       let pic6 = new BlueApp.BluePic(BluePic.PIC_LEFT);
+      let pic7 = new BlueApp.BluePic(BluePic.PIC_LEFT);
 
       node2.addPic(pic3);
       node2.addPic(pic5);
 
       node3.addPic(pic4);
       node3.addPic(pic6);
+      node3.addPic(pic7);
 
-      pic3.link(pic4);
+      // pic3.link(pic4);
       pic5.link(pic6);
 
 
@@ -167,7 +169,7 @@ export default {
     position: relative;
     background-color: rgb(66, 66, 66);
     flex: 1;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
   }
-
 }
 </style>

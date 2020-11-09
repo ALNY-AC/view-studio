@@ -16,6 +16,8 @@ export default class BlueApp {
 
     downNode = null;
     moveNode = null;
+    activePic = null;
+
     $el = null;
     pics = [];
 
