@@ -40,14 +40,45 @@ export default {
 
 
       let node2 = new BlueApp.BlueNode();
-      node2.x = 500;
-      node2.y = 500;
+      node2.x = 450;
+      node2.y = 300;
+
+
+
+      let node3 = new BlueApp.BlueNode();
+      node3.x = 700;
+      node3.y = 320;
+
+
 
       app.addNodes(node1);
       app.addNodes(node2);
+      app.addNodes(node3);
 
-      node1.addPic(new BlueApp.BluePic(node1, node2), BluePic.PIC_RIGHT);
-      // node2.addPic(new BlueApp.BluePic(node2, node1), BluePic.PIC_LEFT);
+
+      let pic1 = new BlueApp.BluePic(BluePic.PIC_RIGHT);
+      let pic2 = new BlueApp.BluePic(BluePic.PIC_LEFT);
+
+      node1.addPic(pic1);
+      node2.addPic(pic2);
+
+      pic1.link(pic2);
+
+
+      let pic3 = new BlueApp.BluePic(BluePic.PIC_RIGHT);
+      let pic4 = new BlueApp.BluePic(BluePic.PIC_LEFT);
+      let pic5 = new BlueApp.BluePic(BluePic.PIC_RIGHT);
+      let pic6 = new BlueApp.BluePic(BluePic.PIC_LEFT);
+
+      node2.addPic(pic3);
+      node2.addPic(pic5);
+
+      node3.addPic(pic4);
+      node3.addPic(pic6);
+
+      pic3.link(pic4);
+      pic5.link(pic6);
+
 
 
 
@@ -137,5 +168,6 @@ export default {
     background-color: rgb(66, 66, 66);
     flex: 1;
   }
+
 }
 </style>

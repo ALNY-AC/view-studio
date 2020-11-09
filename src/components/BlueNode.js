@@ -9,7 +9,7 @@ export default class BlueNode {
     $el = null;
     x = 0;
     y = 0;
-    width = 200;
+    width = 150;
     height = 100;
     fillColor = 'rgba(255, 255,255, 0.75)';
     strokeColor = "rgba(0, 0, 0,0.2)";
@@ -19,55 +19,39 @@ export default class BlueNode {
     inputPics = [];
     outputPics = [];
 
-
-    init() {
-
-    }
     start() { }
     /**
      * 
      * @param {BluePic} pic 
-     * @param {String} direction 方向
      */
-    addPic(pic, direction) {
-        if (typeof direction == 'undefined') return this;
-
-        pic.type = direction;
+    addPic(pic) {
         pic.node = this;
         pic.app = this.app;
 
-        if (direction == BluePic.PIC_LEFT) {
+        if (pic.type == BluePic.PIC_LEFT) {
             this.inputPics.push(pic);
         }
-        if (direction == BluePic.PIC_RIGHT) {
+        if (pic.type == BluePic.PIC_RIGHT) {
             this.outputPics.push(pic);
         }
-
-        pic.init();
-
+        pic.start();
         return this;
     }
-
-    updatePic() {
-        this.inputPics.forEach(pic => {
-            pic.update();
-        });
-
-        this.outputPics.forEach(pic => {
-            pic.update();
-        });
-    }
-    renderPic() {
-        this.inputPics.forEach(pic => {
-            pic.render();
-        });
-
-        this.outputPics.forEach(pic => {
-            pic.render();
-        });
-    }
     update() {
-        this.updatePic();
+        this.inputPics.forEach((pic, i) => {
+            pic.update();
+            let originY = (this.y - this.height / 2) + 10;
+            pic.y = originY + i * 30;
+            pic.x = this.x - this.width / 2 + pic.width / 2;
+
+        });
+        this.outputPics.forEach((pic, i) => {
+            pic.update();
+            let originY = (this.y - this.height / 2) + 10;
+            pic.y = originY + i * 30;
+            pic.x = this.x + this.width / 2 - + pic.width / 2;
+        });
+        //===
         if (this.app.mouse.down) {
             if (this.down) {
                 this.x = this.app.mouse.x + this.mw;
@@ -78,9 +62,12 @@ export default class BlueNode {
             this.mh = this.y - this.app.mouse.y;
         }
     }
+
     render() {
 
-        this.renderPic();
+        this.inputPics.forEach(pic => { pic.render() });
+        this.outputPics.forEach(pic => { pic.render() });
+        //===
         this.$el.position.x = this.x;
         this.$el.position.y = this.y;
         this.$el.fill = this.fillColor
@@ -92,7 +79,6 @@ export default class BlueNode {
      * @param {MouseEvent} e 
      */
     mousemove(e) {
-
     }
     /**
      * 鼠标进入

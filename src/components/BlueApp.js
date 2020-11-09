@@ -56,6 +56,23 @@ export default class BlueApp {
 
         this.two.update();
 
+
+
+        // rect._renderer.elem.addEventListener('touchstart', (e) => {
+        //     this.downNode = blueNode;
+        //     blueNode.mousedown(e);
+        // });
+        // rect._renderer.elem.addEventListener('touchmove', (e) => {
+        //     this.moveNode = blueNode;
+        //     blueNode.mousemove(e);
+        // });
+        // rect._renderer.elem.addEventListener('touchend', (e) => {
+        //     this.downNode = null;
+        //     blueNode.mouseup(e);
+        // });
+
+
+
         rect._renderer.elem.addEventListener('mousedown', (e) => {
             this.downNode = blueNode;
             blueNode.mousedown(e);
@@ -93,6 +110,24 @@ export default class BlueApp {
 
     }
     initEvent() {
+
+        // window.addEventListener('touchmove', e => {
+        //     console.warn(e);
+        //     this.mouse.x = e.touches[0].clientX;
+        //     this.mouse.y = e.touches[0].clientY;
+        // });
+
+        // window.addEventListener('touchstart', e => {
+        //     console.warn(e);
+        //     this.mouse.x = e.touches[0].clientX;
+        //     this.mouse.y = e.touches[0].clientY;
+        //     this.mouse.down = true;
+        // });
+
+        // window.addEventListener('touchend', e => {
+        //     this.mouse.down = false;
+        // });
+
         window.addEventListener('mousemove', e => {
             this.mouse.x = e.x;
             this.mouse.y = e.y;
