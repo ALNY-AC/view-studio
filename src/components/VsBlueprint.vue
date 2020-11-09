@@ -1,9 +1,15 @@
+
 <template>
   <div class="vs-blueprint">
     <div :id="id" class="vs-blueprint-scene" ref="scene"></div>
   </div>
 </template>
 <script>
+import BlueApp from './BlueApp'
+import BluePic from './BluePic';
+
+let app = new BlueApp();
+
 export default {
   name: 'VsBlueprint',
   data() {
@@ -26,95 +32,35 @@ export default {
   methods: {
     initScene() {
       let scene = this.$refs.scene;
-      let params = { fullscreen: true };
-      this.two = new Two(params).appendTo(scene);
-    },
-    createDargCube() {
+      app.init(scene);
 
-      let two = this.two;
+      let node1 = new BlueApp.BlueNode();
+      node1.x = 200;
+      node1.y = 200;
 
 
-      let node = {
-        twoObject: null,
-        down: false,
-        app: this,
-        x: 500,
-        y: 500,
-        mw: 0,
-        mh: 0,
-        id: this.$getRandom(),
-        init() {
-          let rect = two.makeRoundedRectangle(this.x, this.y, 200, 100, 10);
-          rect.fill = 'rgba(255, 255,255, 0.75)';
-          rect.stroke = 'rgb(240, 173, 78)';
-          rect.linewidth = 3;
-          two.update();
-          rect._renderer.elem.addEventListener('mousedown', (e) => {
-            this.mousedown(e);
-          });
+      let node2 = new BlueApp.BlueNode();
+      node2.x = 500;
+      node2.y = 500;
 
-          rect._renderer.elem.addEventListener('mouseup', (e) => {
-            this.mouseup(e);
-          });
-          this.twoObject = rect;
+      app.addNodes(node1);
+      app.addNodes(node2);
 
-        },
-        render() {
-          this.twoObject.position.x = this.x;
-          this.twoObject.position.y = this.y;
-        },
-        update() {
-          if (this.app.mouse.down) {
-            if (this.down) {
-              this.x = this.app.mouse.x + this.mw;
-              this.y = this.app.mouse.y + this.mh;
-            }
+      node1.addPic(new BlueApp.BluePic(node1, node2), BluePic.PIC_RIGHT);
+      // node2.addPic(new BlueApp.BluePic(node2, node1), BluePic.PIC_LEFT);
 
-          } else {
-            this.mw = this.x - this.app.mouse.x;
-            this.mh = this.y - this.app.mouse.y;
-          }
-        },
-        mousedown(e) {
-          this.down = true;
-          this.app.activeNode = this;
-        },
-        mouseup(e) {
-          this.down = false;
-        }
-      }
-      return node;
+
+
+
+
 
 
     },
     buildCube() {
 
+      let two = this.two;
 
-      window.addEventListener('mousedown', e => {
-        this.mouse.x = e.x;
-        this.mouse.y = e.y;
-        this.mouse.down = true;
-      });
-
-
-      window.addEventListener('mouseup', e => {
-        this.mouse.down = false;
-      });
-
-      window.addEventListener('mousemove', e => {
-        this.mouse.x = e.x;
-        this.mouse.y = e.y;
-
-        // if (this.activeNode && this.activeNode.down) {
-
-        //   this.activeNode.twoObject.stroke = 'rgb(0, 255, 0)';
-        //   this.activeNode.twoObject.position.x = e.x - x + nodex;
-        //   this.activeNode.twoObject.position.y = e.y - y + nodey;
-        // }
-
-      });
-
-      for (let i = 0; i < 2; i++) {
+      for (let i = 1; i <= 2; i++) {
 
         let cube = this.createDargCube();
         cube.x = i * 300;
@@ -123,9 +69,26 @@ export default {
         this.nodes.push(cube);
       }
 
-      // this.two.update();
+      let node1 = this.nodes[0];
+      let node2 = this.nodes[1];
 
+      let points = [
+        new Two.Anchor(node1.x, node1.y, 0, 0, 0, 0),
+        new Two.Anchor(node1.x + 50, node1.y + 20, 0, 0, 0, 0),
+        new Two.Anchor(node2.x - 50, node2.y - 20, 0, 0, 0, 0),
+        new Two.Anchor(node2.x, node2.y, 0, 0, 0, 0),
+      ];
 
+      let path = two.makePath([], true,);
+      path.stroke = 'rgb(240, 173, 78)';
+      path.noFill();
+      path.linewidth = 5;
+      path.curved = true;
+      path.cap = 'round';
+
+      path.vertices = points;
+
+      console.warn();
 
     },
     render() {
@@ -143,58 +106,22 @@ export default {
       rect.stroke = 'rgb(240, 173, 78)';
       rect.linewidth = 3;
 
-
     },
-    buildScene() {
-      let scene = this.$refs.scene;
 
-      let w = this.$refs.scene.offsetWidth;
-      let h = this.$refs.scene.offsetHeight;
-
-      for (let i = 0; i < w; i++) {
-        if ((i * 30) < w) {
-          let line = this.two.makeLine(i * 30, 0, i * 30, h);
-          line.stroke = 'rgb(77,77,77)';
-          line.linewidth = 1;
-        } else {
-          break;
-        }
-      }
-
-      for (let i = 0; i < h; i++) {
-        if ((i * 30) < h) {
-          let line = this.two.makeLine(0, i * 30, w, i * 30);
-          line.stroke = 'rgb(77,77,77)';
-          line.linewidth = 1;
-        } else {
-          break;
-        }
-      }
-
-      this.two.update();
-
-    },
 
     initThread() {
       clearInterval(this.interval);
       this.interval = setInterval(() => {
-        if (this.two) {
-          this.two.update();
-          this.nodes.forEach(node => {
-            node.update();
-          });
-          this.nodes.forEach(node => {
-            node.render();
-          });
-        }
+        app.update();
+        app.render();
+        app.two.update();
       }, 0);
     },
   },
 
   mounted() {
     this.initScene();
-    this.buildScene();
-    this.buildCube();
+    // this.buildCube();
     this.initThread();
   }
 }
@@ -204,11 +131,11 @@ export default {
   width: 100vw;
   height: 100vh;
   position: relative;
+  display: flex;
   .vs-blueprint-scene {
     position: relative;
     background-color: rgb(66, 66, 66);
-    width: 100%;
-    height: 100%;
+    flex: 1;
   }
 }
 </style>
